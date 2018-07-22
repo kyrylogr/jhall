@@ -1,0 +1,357 @@
+<odoo>
+  <data>
+    <act_window id="jh_aview_regions"
+        name="Regions"
+        res_model="jhall.d_region"
+        view_mode="tree,form" 
+    />
+    <act_window id="jh_aview_halls"
+        name="Halls"
+        res_model="jhall.d_hall"
+        view_mode="tree,form" 
+    />
+    <act_window id="jh_aview_spots"
+        name="Spaces"
+        res_model="jhall.d_spot"
+        view_mode="tree,form" 
+    />
+    <act_window id="jh_aview_equipment_type"
+        name="Equipment Type"
+        res_model="jhall.d_equipment_type"
+        view_mode="tree,form" 
+    />
+    <act_window id="jh_aview_equipment"
+        name="Equipment"
+        res_model="jhall.h_equipment"
+        view_mode="tree,form" 
+    />
+    <act_window id="jh_aview_service_category"
+        name="Equipment"
+        res_model="jhall.d_service_category"
+        view_mode="tree,form" 
+    />
+    <act_window id="jh_aview_service_type"
+        name="Equipment"
+        res_model="jhall.d_service_type"
+        view_mode="tree,form" 
+    />        
+    <act_window id="jh_aview_abonement_type"
+        name="Abonement types"
+        res_model="jhall.d_abonement_type"
+        view_mode="tree,form" 
+    />        
+    <act_window id="jh_aview_abonement_price"
+        name="Abonement types"
+        res_model="jhall.d_abonement_price"
+        view_mode="tree,form" 
+    />        
+    <act_window id="jh_aview_abonement"
+        name="Abonement"
+        res_model="jhall.o_abonement"
+        view_mode="tree,form" 
+    />        
+    <act_window id="jh_aview_client"
+        name="Client"
+        res_model="jhall.o_customer"
+        view_mode="tree,form" 
+    />        
+    <act_window id="jh_aview_trainer_schedule"
+        name="Trainer schedule"
+        res_model="jhall.o_trainer_schedule"
+        view_mode="tree,form" 
+    />        
+
+    <act_window id="jh_aview_trainer"
+        name="Trainers"
+        res_model="jhall.d_trainer"
+        view_mode="tree,form" 
+    />        
+      
+    <menuitem name="JumpingHall" id="jh_menu_main"/>
+    <menuitem name="JH Hall" id="jh_menu_hall"/>    
+    <menuitem name="Client" id="jh_menu_client" 
+        action="jh_aview_client"  
+        parent="jh_menu_hall"/>            
+    <menuitem name="Trainer schedule" id="jh_menu_trainer_schedule" 
+        action="jh_aview_trainer_schedule"  
+        parent="jh_menu_hall"/>            
+    <menuitem name="Abonement" id="jh_menu_aview_abonement" 
+        action="jh_aview_abonement"  
+        parent="jh_menu_hall"/>                    
+
+    <menuitem name="JH Dictionaries" id="jh_menu_dictionaries"/>
+    <menuitem name="Regions" id="jh_menu_regions" action="jh_aview_regions" 
+        parent="jh_menu_dictionaries"/>
+    <menuitem name="Halls" id="jh_menu_halls" action="jh_aview_halls"  
+        parent="jh_menu_dictionaries"/>
+    <menuitem name="Spaces" id="jh_menu_spots" action="jh_aview_spots"  
+        parent="jh_menu_dictionaries"/>
+    <menuitem name="Equipment Type" id="jh_menu_equipment_type" 
+        action="jh_aview_equipment_type"  
+        parent="jh_menu_dictionaries"/>
+    <menuitem name="Service Category" id="jh_menu_service_category" 
+        action="jh_aview_service_category"  
+        parent="jh_menu_dictionaries"/>
+    <menuitem name="Service Type" id="jh_menu_service_type" 
+        action="jh_aview_service_type"  
+        parent="jh_menu_dictionaries"/> 
+    <menuitem name="Equipment" id="jh_menu_equipment" 
+        action="jh_aview_equipment"  
+        parent="jh_menu_dictionaries"/>
+    <menuitem name="Abonement Type" id="jh_menu_abonement_type" 
+        action="jh_aview_abonement_type"  
+        parent="jh_menu_dictionaries"/>
+    <menuitem name="Abonement Price" id="jh_menu_abonement_price" 
+        action="jh_aview_abonement_price"  
+        parent="jh_menu_dictionaries"/>
+    <menuitem name="Trainers" id="jh_menu_trainer" 
+        action="jh_aview_trainer"  
+        parent="jh_menu_dictionaries"/>
+        
+    <record model="ir.ui.view" id="jhall.v_t_hall">
+      <field name="name">Halls list</field>
+      <field name="model">jhall.d_hall</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="short_name"/>
+          <field name="region_id"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="jhall.v_t_equipment">
+      <field name="name">Equipment list</field>
+      <field name="model">jhall.h_equipment</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="hall_id"/>
+          <field name="spot_id"/>          
+          <field name="type_id"/>
+          <field name="no"/>
+          <field name="name"/>          
+        </tree>
+      </field>
+    </record> 
+
+    <record model="ir.ui.view" id="jhall.v_t_service_type">
+      <field name="name">Service type</field>
+      <field name="model">jhall.d_service_type</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="short_name"/>          
+          <field name="equipment_type_id"/>
+          <field name="is_coach_included"/>
+          <field name="default_unit_time"/>      
+          <field name="is_used"/>                    
+        </tree>
+      </field>
+    </record>    
+
+    <record model="ir.ui.view" id="jhall.v_t_abonement_type">
+      <field name="name">Abonement type</field>
+      <field name="model">jhall.d_abonement_type</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="short_name"/>          
+          <field name="n_units"/>          
+          <field name="is_coach_included"/>
+          <field name="days_duration"/>          
+          <field name="is_used"/>                    
+        </tree>
+      </field>
+    </record>    
+
+    <record model="ir.ui.view" id="jhall.v_t_abonement_price">
+      <field name="name">Abonement price</field>
+      <field name="model">jhall.d_abonement_price</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="type_id"/>
+          <field name="price"/>
+          <field name="date_begin"/>          
+          <field name="date_end"/>          
+        </tree>
+      </field>
+    </record>            
+
+    <record model="ir.ui.view" id="jhall.v_t_abonement">
+      <field name="name">Abonement</field>
+      <field name="model">jhall.o_abonement</field>
+      <field name="search_view_id">jhall.v_s_abonement</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="customer_id"/>                              
+          <field name="type_id"/>      
+          <field name="left_to_pay"/>                
+          <field name="units"/>                                                        
+          <field name="units_left"/>                                              
+          <field name="date_activate"/>                          
+          <field name="date_expire"/>                                    
+        </tree>
+      </field>
+    </record> 
+
+    <record model="ir.ui.view" id="jhall.v_s_abonement">
+      <field name="name">Abonement</field>
+      <field name="model">jhall.o_abonement</field>
+      <field name="arch" type="xml">      
+        <search>
+         <field name="name"/>
+         <field name="customer_id"/>
+         <field name="left_to_pay"/>         
+         <field name="units"/>
+         <field name="units_left"/>
+         <field name="date_activate"/>
+         <field name="date_payment"/>         
+         <field name="date_expire"/>
+         <filter name="not paid" string="not paid"
+            domain="[('left_to_pay', '>', 0)]"/>         
+
+        </search>
+      </field>        
+    </record> 
+
+
+    <record model="ir.ui.view" id="jhall.v_f_abonement">
+      <field name="name">Abonement</field>
+      <field name="model">jhall.o_abonement</field>
+      <field name="arch" type="xml">
+        <form>
+          <group>        
+            <field name="name"/>
+            <field name="type_id"/>      
+            <field name="price" readonly = "1"  force_save="1"/>                              
+            <field name="customer_id"/>                
+            <field name="date_issue" />                              
+            <field name="date_payment"/>                              
+            <field name="paid"/>                                    
+            <field name="left_to_pay"  readonly = "1"  force_save="1"/>                                          
+            <field name="units" readonly = "1"  force_save="1"/>                                                        
+            <field name="units_left"  readonly = "1"  force_save="1"/>                                              
+            <field name="units_used"/>                                              
+            <field name="units_used_fine"/>                                                                  
+            <field name="date_activate"/>                          
+            <field name="date_expire"/>                                    
+          </group>                    
+        </form>
+      </field>
+    </record>    
+
+
+    <record model="ir.ui.view" id="jhall.v_t_trainer">
+      <field name="name">Trainer</field>
+      <field name="model">jhall.d_trainer</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="is_used"/>                              
+          <field name="skills"/>      
+          <field name="experience"/>                
+        </tree>
+      </field>
+    </record>    
+
+    <record model="ir.ui.view" id="jhall.v_t_trainer_schedule">
+      <field name="name">Trainer schedule</field>
+      <field name="model">jhall.o_trainer_schedule</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="trainer_id"/>
+          <field name="hall_id"/>                              
+          <field name="day_numbers"/>                                    
+          <field name="date_begin"/>      
+          <field name="date_end"/>                
+          <field name="time_begin"  widget="float_time"/>                
+          <field name="time_end"  widget="float_time"/>                
+        </tree>
+      </field>
+    </record>    
+
+    <record model="ir.ui.view" id="jhall.v_f_trainer_schedule">
+      <field name="name">Trainer schedule form</field>
+      <field name="model">jhall.o_trainer_schedule</field>
+      <field name="arch" type="xml">
+        <form string="Trainer Shedule">
+          <group>
+            <field name="trainer_id"/>
+            <field name="hall_id"/>                              
+            <field name="day_numbers"/>                                    
+            <field name="date_begin"/>      
+            <field name="date_end"/>                
+            <field name="time_begin" widget="float_time"/>                
+            <field name="time_end" widget="float_time"/>                
+            <field name="break_begin" widget="float_time"/>                
+            <field name="break_begin" widget="float_time"/>                                    
+          </group>  
+        </form>
+      </field>
+    </record>    
+
+
+<!--  <menuitem name="Service Type" id="jh_menu_service_type" 
+        action="jh_aview_service_type"  
+        parent="jh_menu_dictionaries"/>
+-->        
+
+    <!-- explicit list view definition -->
+    <!--
+    <record model="ir.ui.view" id="jhall.list">
+      <field name="name">jhall list</field>
+      <field name="model">jhall.jhall</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="value"/>
+          <field name="value2"/>
+        </tree>
+      </field>
+    </record>
+    -->
+
+    <!-- actions opening views on models -->
+    <!--
+    <record model="ir.actions.act_window" id="jhall.action_window">
+      <field name="name">jhall window</field>
+      <field name="res_model">jhall.jhall</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+    -->
+
+    <!-- server action to the one above -->
+    <!--
+    <record model="ir.actions.server" id="jhall.action_server">
+      <field name="name">jhall server</field>
+      <field name="model_id" ref="model_jhall_jhall"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": self._name,
+        }
+      </field>
+    </record>
+    -->
+
+    <!-- Top menu item -->
+    <!--
+    <menuitem name="jhall" id="jh_menu_root"/>
+    -->
+    <!-- menu categories -->
+    <!--
+    <menuitem name="Menu 1" id="jh_menu_1" parent="jh_menu_root"/>
+    <menuitem name="Menu 2" id="jh_menu_2" parent="jh_menu_root"/>
+    -->
+    <!-- actions -->
+    <!--
+    <menuitem name="List" id="jh_menu_1_list" parent="jh_menu_1"
+              action="jhall.action_window"/>
+    <menuitem name="Server to list" id="jhall" parent="jh_menu_2"
+              action="jhall.action_server"/>
+    -->
+  </data>
+</odoo>
