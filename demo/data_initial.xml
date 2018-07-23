@@ -6,374 +6,539 @@
         </record>
         <record id="jh_hall_1" model="jhall.d_hall"> 
             <field name="name">Берестейська</field>
-            <field name="short_name">Берест</field>            
-            <field name="description">Зал біля метро Берестейська, багато батутів, яма, обладнання.</field>                        
-            <field name="region_id" ref="jh_reg_1"/>            
+            <field name="short_name">Берест</field>
+            <field name="description">Зал біля метро Берестейська, багато батутів, яма, обладнання.</field>
+            <field name="region_id" ref="jh_reg_1"/>
         </record>
         <record id="jh_hall_2" model="jhall.d_hall"> 
             <field name="name">XПарк</field>
-            <field name="short_name">ПДН</field>            
-            <field name="description">Критий майданчик на відкритому повітрі, поруч з рікою. Найкраще місце провести вільний час влітку</field>                        
-            <field name="region_id" ref="jh_reg_1"/>            
+            <field name="short_name">ПДН</field>
+            <field name="description">Критий майданчик на відкритому повітрі, 5 батутів, дитяча зона, стіна для стрибків, поруч з рікою. Найкраще місце провести вільний час влітку</field>
+            <field name="region_id" ref="jh_reg_1"/>
         </record>
         <record id="jh_hall_3" model="jhall.d_hall"> 
             <field name="name">Харківське Шосе</field>
-            <field name="short_name">ХШ</field>            
-            <field name="description">Зал біля метро ленінградської площі, багато батутів, Мегатрамп.</field>                        
-            <field name="region_id" ref="jh_reg_1"/>            
+            <field name="short_name">ХШ</field>
+            <field name="description">Зал біля метро ленінградської площі, багато батутів, Мегатрамп.</field>
+            <field name="region_id" ref="jh_reg_1"/>
         </record>
 
         <record id="jh_et_1" model="jhall.d_equipment_type"> 
             <field name="name">Батут</field>
-            <field name="short_name">Батут</field>            
-            <field name="description">Стандартний спортивний батут</field>                                    
+            <field name="short_name">Батут</field>
+            <field name="description">Стандартний спортивний батут</field>
         </record>
 
         <record id="jh_et_2" model="jhall.d_equipment_type"> 
             <field name="name">Мегатрамп</field>
-            <field name="short_name">Мегатрамп</field>            
-            <field name="description">Квадратний великий батут.</field>                                    
+            <field name="short_name">Мегатрамп</field>
+            <field name="description">Квадратний великий батут.</field>
+        </record>
+
+        <record id="jh_et_3" model="jhall.d_equipment_type"> 
+            <field name="name">Малий зал</field>
+            <field name="short_name">Малий зал</field>
+            <field name="description">Малий зал берестейська.</field>
         </record>
 
         <record id="jh_sc_1" model="jhall.d_service_category"> 
             <field name="name">Аренда</field>
-            <field name="short_name">АР</field>            
-            <field name="description">Аренда без тренера</field>                                    
+            <field name="short_name">АР</field>
+            <field name="description">Аренда без тренера</field>
         </record>
 
         <record id="jh_sc_2" model="jhall.d_service_category"> 
             <field name="name">Аренда з тренером</field>
-            <field name="short_name">АРТ</field>            
-            <field name="description">Аренда з тренером</field>                                    
+            <field name="short_name">АРТ</field>
+            <field name="description">Аренда з тренером</field>
         </record>
 
         <record id="jh_sc_3" model="jhall.d_service_category"> 
             <field name="name">Група</field>
-            <field name="short_name">Група</field>            
-            <field name="description">Групове заняття</field>                                    
+            <field name="short_name">Група</field>
+            <field name="description">Групове заняття</field>
         </record>
+
         <record id="jh_sc_4" model="jhall.d_service_category"> 
             <field name="name">Вільне відвідування</field>
-            <field name="short_name">Вільне</field>            
-            <field name="description">Вільне відвідування</field>                                    
+            <field name="short_name">Вільне</field>
+            <field name="description">Вільне відвідування</field>
         </record>
+
         <record id="jh_sc_5" model="jhall.d_service_category"> 
             <field name="name">Аренда залу</field>
-            <field name="short_name">АРЗу</field>            
-            <field name="description">Аренда залу, включає одного тренера</field>                                    
-        </record>        
+            <field name="short_name">АРЗ</field>
+            <field name="description">Аренда залу, включає одного тренера</field>
+        </record>  
 
-        <record id="jh_st_1" model="jhall.d_service_type"> 
+        <record id="jh_st01" model="jhall.d_service_type"> 
             <field name="name">Аренда</field>
-            <field name="short_name">АРНД</field>            
-            <field name="equipment_type_id" ref="jh_et_1"/>                                                
-            <field name="category_id" ref="jh_sc_2"/>                                                
+            <field name="short_name">АРНД</field>
+            <field name="equipment_type_id" ref="jh_et_1"/>
+            <field name="category_id" ref="jh_sc_2"/>
         </record>
-        <record id="jh_st_2" model="jhall.d_service_type"> 
+        <record id="jh_st02" model="jhall.d_service_type"> 
             <field name="name">Аренда з тренером</field>
-            <field name="short_name">АРТР</field>            
-            <field name="equipment_type_id" ref="jh_et_1"/>                                                
-            <field name="is_coach_included">True</field>                                                                                                
-            <field name="category_id" ref="jh_sc_2"/>                                                
+            <field name="short_name">АРТР</field>
+            <field name="equipment_type_id" ref="jh_et_1"/>
+            <field name="is_coach_included">True</field>
+            <field name="category_id" ref="jh_sc_2"/>
         </record>
-        <record id="jh_st_3" model="jhall.d_service_type"> 
+        <record id="jh_st03" model="jhall.d_service_type"> 
             <field name="name">Групове заняття3</field>
-            <field name="short_name">Група3</field>            
+            <field name="short_name">Група3</field>
             <field name="num_customers">3</field>
-            <field name="default_unit_time">90</field>                                                
-            <field name="min_time">90</field>                                                                        
-            <field name="max_time">90</field>                                                            
-            <field name="is_coach_included">True</field>                                                                                    
-            <field name="equipment_type_id" ref="jh_et_1"/>                                                
-            <field name="category_id" ref="jh_sc_3"/>                                                
+            <field name="default_unit_time">90</field>
+            <field name="min_time">90</field>
+            <field name="max_time">90</field>
+            <field name="is_coach_included">True</field>
+            <field name="equipment_type_id" ref="jh_et_1"/>
+            <field name="category_id" ref="jh_sc_3"/>
         </record>
-        <record id="jh_st_4" model="jhall.d_service_type"> 
+        <record id="jh_st04" model="jhall.d_service_type"> 
             <field name="name">Групове заняття2</field>
-            <field name="short_name">Група2</field>            
+            <field name="short_name">Група2</field>
             <field name="num_customers">2</field>
-            <field name="default_unit_time">60</field>                                                
-            <field name="min_time">60</field>                                                                        
-            <field name="max_time">90</field>                                                            
-            <field name="is_coach_included">True</field>                                                                                                
-            <field name="equipment_type_id" ref="jh_et_1"/>                                                
-            <field name="category_id" ref="jh_sc_3"/>                                                
+            <field name="default_unit_time">60</field>
+            <field name="min_time">60</field>
+            <field name="max_time">90</field>
+            <field name="is_coach_included">True</field>
+            <field name="equipment_type_id" ref="jh_et_1"/>
+            <field name="category_id" ref="jh_sc_3"/>
         </record>
-        <record id="jh_st_5" model="jhall.d_service_type"> 
+        <record id="jh_st05" model="jhall.d_service_type"> 
             <field name="name">Вільне відвідування</field>
-            <field name="short_name">Вільне</field>            
-            <field name="num_customers">99</field>            
-            <field name="default_unit_time">00</field>                                                            
-            <field name="max_time">180</field>                                                            
-            <field name="equipment_type_id" ref="jh_et_1"/>                                                
-            <field name="category_id" ref="jh_sc_4"/>                                                
+            <field name="short_name">Вільне</field>
+            <field name="num_customers">99</field>
+            <field name="default_unit_time">00</field>
+            <field name="max_time">180</field>
+            <field name="equipment_type_id" ref="jh_et_1"/>
+            <field name="category_id" ref="jh_sc_4"/>
         </record>
-        <record id="jh_st_5" model="jhall.d_service_type"> 
-            <field name="name">Аренда залу</field>
-            <field name="short_name">Аренда залу</field>            
+        <record id="jh_st07" model="jhall.d_service_type"> 
+            <field name="name">Тренер</field>
+            <field name="short_name">Тренер</field>
             <field name="num_customers">1</field>
-            <field name="default_unit_time">60</field>                                                
-            <field name="min_time">60</field>                                                                                                                                        
-            <field name="is_coach_included">True</field>                                                                                                
-            <field name="category_id" ref="jh_sc_5"/>                                                
+            <field name="default_unit_time">60</field>
+            <field name="min_time">60</field> 
+            <field name="is_coach_included">True</field>
+        </record>
+        <record id="jh_st08" model="jhall.d_service_type"> 
+            <field name="name">Дитяча група</field>
+            <field name="short_name">Дитяча група</field>
+            <field name="num_customers">4</field>
+            <field name="default_unit_time">90</field>
+            <field name="min_time">90</field> 
+            <field name="max_time">90</field> 
+            <field name="equipment_type_id" ref="jh_et_1"/>
+            <field name="is_coach_included">True</field>
         </record>
 
+        <record id="jh_st09" model="jhall.d_service_type"> 
+            <field name="name">Акробатика</field>
+            <field name="short_name">Акробатика</field>
+            <field name="num_customers">10</field>
+            <field name="default_unit_time">90</field>
+            <field name="min_time">90</field> 
+            <field name="max_time">90</field>
+            <field name="is_coach_included">True</field>
+        </record>
+
+        <record id="jh_st10" model="jhall.d_service_type"> 
+            <field name="name">Тематична група</field>
+            <field name="short_name">Тематична група</field>
+            <field name="num_customers">10</field>
+            <field name="default_unit_time">90</field>
+            <field name="min_time">90</field> 
+            <field name="max_time">90</field>
+            <field name="is_coach_included">True</field>
+        </record>
+
+        <record id="jh_st11" model="jhall.d_service_type"> 
+            <field name="name">Зал Берест</field>
+            <field name="short_name">Зал Берест</field>
+            <field name="num_customers">1</field>
+            <field name="default_unit_time">60</field>
+            <field name="min_time">60</field> 
+            <field name="is_coach_included">True</field>
+            <field name="hall_reserve">True</field>
+            <field name="hall_id" ref="jh_hall_1"/>
+            <field name="category_id" ref="jh_sc_5"/>
+        </record>
+
+        <record id="jh_st12" model="jhall.d_service_type"> 
+            <field name="name">Зал ПДН</field>
+            <field name="short_name">Зал ПДН</field>
+            <field name="num_customers">1</field>
+            <field name="default_unit_time">60</field>
+            <field name="min_time">60</field> 
+            <field name="is_coach_included">True</field>
+            <field name="hall_reserve">True</field>
+            <field name="hall_id" ref="jh_hall_2"/>
+            <field name="category_id" ref="jh_sc_5"/>
+        </record>
+        <record id="jh_st13" model="jhall.d_service_type"> 
+            <field name="name">Зал ХШ</field>
+            <field name="short_name">Зал ХШ</field>
+            <field name="num_customers">1</field>
+            <field name="default_unit_time">60</field>
+            <field name="min_time">60</field> 
+            <field name="is_coach_included">True</field>
+            <field name="hall_reserve">True</field>
+            <field name="hall_id" ref="jh_hall_3"/>
+            <field name="category_id" ref="jh_sc_5"/>
+        </record>
+
+        <record id="jh_st14" model="jhall.d_service_type"> 
+            <field name="name">Аренда малий зал</field>
+            <field name="short_name">Аренда малого залу</field>
+            <field name="num_customers">1</field>
+            <field name="default_unit_time">60</field>
+            <field name="min_time">60</field> 
+            <field name="equipment_type_id" ref="jh_et_3"/>
+            <field name="hall_id" ref="jh_hall_1"/>
+            <field name="category_id" ref="jh_sc_5"/>
+        </record>
 
         <record id="jh_eq11" model="jhall.h_equipment"> 
-            <field name="type_id" ref="jh_et_1"/>                                                        
-            <field name="hall_id" ref="jh_hall_1"/>            
-            <field name="name">Батут 1</field>                        
-            <field name="no">1</field>            
+            <field name="type_id" ref="jh_et_1"/>  
+            <field name="hall_id" ref="jh_hall_1"/>
+            <field name="name">Батут 1</field>
+            <field name="no">1</field>
         </record>
         <record id="jh_eq12" model="jhall.h_equipment"> 
-            <field name="type_id" ref="jh_et_1"/>                                                        
-            <field name="hall_id" ref="jh_hall_1"/>            
-            <field name="name">Батут 2</field>                        
-            <field name="no">3</field>            
+            <field name="type_id" ref="jh_et_1"/>  
+            <field name="hall_id" ref="jh_hall_1"/>
+            <field name="name">Батут 2</field>
+            <field name="no">3</field>
         </record>
         <record id="jh_eq13" model="jhall.h_equipment"> 
-            <field name="type_id" ref="jh_et_1"/>                                                        
-            <field name="hall_id" ref="jh_hall_1"/>            
-            <field name="name">Батут 3</field>                        
-            <field name="no">3</field>            
+            <field name="type_id" ref="jh_et_1"/>  
+            <field name="hall_id" ref="jh_hall_1"/>
+            <field name="name">Батут 3</field>
+            <field name="no">3</field>
         </record>
         <record id="jh_eq14" model="jhall.h_equipment"> 
-            <field name="type_id" ref="jh_et_1"/>                                                        
-            <field name="hall_id" ref="jh_hall_1"/>            
-            <field name="name">Батут 4</field>                        
-            <field name="no">4</field>            
+            <field name="type_id" ref="jh_et_1"/>  
+            <field name="hall_id" ref="jh_hall_1"/>
+            <field name="name">Батут 4</field>
+            <field name="no">4</field>
         </record>
         <record id="jh_eq15" model="jhall.h_equipment"> 
-            <field name="type_id" ref="jh_et_1"/>                                                        
-            <field name="hall_id" ref="jh_hall_1"/>            
-            <field name="name">Батут 5</field>                        
-            <field name="no">5</field>            
+            <field name="type_id" ref="jh_et_1"/>  
+            <field name="hall_id" ref="jh_hall_1"/>
+            <field name="name">Батут 5</field>
+            <field name="no">5</field>
         </record>
         <record id="jh_eq16" model="jhall.h_equipment"> 
-            <field name="type_id" ref="jh_et_1"/>                                                        
-            <field name="hall_id" ref="jh_hall_1"/>            
-            <field name="name">Батут 6</field>                        
-            <field name="no">6</field>            
+            <field name="type_id" ref="jh_et_1"/>  
+            <field name="hall_id" ref="jh_hall_1"/>
+            <field name="name">Батут 6</field>
+            <field name="no">6</field>
         </record>
 
         <record id="jh_eq21" model="jhall.h_equipment"> 
-            <field name="type_id" ref="jh_et_1"/>                                                        
-            <field name="hall_id" ref="jh_hall_2"/>            
-            <field name="name">Батут 1</field>                        
-            <field name="no">1</field>            
+            <field name="type_id" ref="jh_et_1"/>  
+            <field name="hall_id" ref="jh_hall_2"/>
+            <field name="name">Батут 1</field>
+            <field name="no">1</field>
         </record>
         <record id="jh_eq22" model="jhall.h_equipment"> 
-            <field name="type_id" ref="jh_et_1"/>                                                        
-            <field name="hall_id" ref="jh_hall_2"/>            
-            <field name="name">Батут 2</field>                        
-            <field name="no">3</field>            
+            <field name="type_id" ref="jh_et_1"/>  
+            <field name="hall_id" ref="jh_hall_2"/>
+            <field name="name">Батут 2</field>
+            <field name="no">3</field>
         </record>
         <record id="jh_eq23" model="jhall.h_equipment"> 
-            <field name="type_id" ref="jh_et_1"/>                                                        
-            <field name="hall_id" ref="jh_hall_2"/>            
-            <field name="name">Батут 3</field>                        
-            <field name="no">3</field>            
+            <field name="type_id" ref="jh_et_1"/>  
+            <field name="hall_id" ref="jh_hall_2"/>
+            <field name="name">Батут 3</field>
+            <field name="no">3</field>
         </record>
         <record id="jh_eq24" model="jhall.h_equipment"> 
-            <field name="type_id" ref="jh_et_1"/>                                                        
-            <field name="hall_id" ref="jh_hall_2"/>            
-            <field name="name">Батут 4</field>                        
-            <field name="no">4</field>            
+            <field name="type_id" ref="jh_et_1"/>  
+            <field name="hall_id" ref="jh_hall_2"/>
+            <field name="name">Батут 4</field>
+            <field name="no">4</field>
         </record>
         <record id="jh_eq25" model="jhall.h_equipment"> 
-            <field name="type_id" ref="jh_et_1"/>                                                        
-            <field name="hall_id" ref="jh_hall_2"/>            
-            <field name="name">Батут 5</field>                        
-            <field name="no">5</field>            
+            <field name="type_id" ref="jh_et_1"/>  
+            <field name="hall_id" ref="jh_hall_2"/>
+            <field name="name">Батут 5</field>
+            <field name="no">5</field>
         </record>
 
         <record id="jh_eq31" model="jhall.h_equipment"> 
-            <field name="type_id" ref="jh_et_1"/>                                                        
-            <field name="hall_id" ref="jh_hall_3"/>            
-            <field name="name">Батут 1</field>                        
-            <field name="no">1</field>            
+            <field name="type_id" ref="jh_et_1"/>  
+            <field name="hall_id" ref="jh_hall_3"/>
+            <field name="name">Батут 1</field>
+            <field name="no">1</field>
         </record>
         <record id="jh_eq32" model="jhall.h_equipment"> 
-            <field name="type_id" ref="jh_et_1"/>                                                        
-            <field name="hall_id" ref="jh_hall_3"/>            
-            <field name="name">Батут 2</field>                        
-            <field name="no">3</field>            
+            <field name="type_id" ref="jh_et_1"/>  
+            <field name="hall_id" ref="jh_hall_3"/>
+            <field name="name">Батут 2</field>
+            <field name="no">3</field>
         </record>
         <record id="jh_eq33" model="jhall.h_equipment"> 
-            <field name="type_id" ref="jh_et_1"/>                                                        
-            <field name="hall_id" ref="jh_hall_3"/>            
-            <field name="name">Батут 3</field>                        
-            <field name="no">3</field>            
+            <field name="type_id" ref="jh_et_1"/>  
+            <field name="hall_id" ref="jh_hall_3"/>
+            <field name="name">Батут 3</field>
+            <field name="no">3</field>
         </record>
         <record id="jh_eq34" model="jhall.h_equipment"> 
-            <field name="type_id" ref="jh_et_1"/>                                                        
-            <field name="hall_id" ref="jh_hall_3"/>            
-            <field name="name">Батут 4</field>                        
-            <field name="no">4</field>            
+            <field name="type_id" ref="jh_et_1"/>  
+            <field name="hall_id" ref="jh_hall_3"/>
+            <field name="name">Батут 4</field>
+            <field name="no">4</field>
         </record>
         <record id="jh_eq35" model="jhall.h_equipment"> 
-            <field name="type_id" ref="jh_et_1"/>                                                        
-            <field name="hall_id" ref="jh_hall_3"/>            
-            <field name="name">Батут 5</field>                        
-            <field name="no">5</field>            
+            <field name="type_id" ref="jh_et_1"/>  
+            <field name="hall_id" ref="jh_hall_3"/>
+            <field name="name">Батут 5</field>
+            <field name="no">5</field>
         </record>
 
         <record id="jh_eq39" model="jhall.h_equipment"> 
-            <field name="type_id" ref="jh_et_2"/>                                                        
-            <field name="hall_id" ref="jh_hall_3"/>            
-            <field name="name">Мегатрамп</field>                        
-            <field name="no">9</field>            
+            <field name="type_id" ref="jh_et_2"/>  
+            <field name="hall_id" ref="jh_hall_3"/>
+            <field name="name">Мегатрамп</field>
+            <field name="no">9</field>
         </record>
 
         <record id="jh_tr01" model="jhall.d_trainer"> 
-            <field name="name">Десятник Кирило</field>                        
-            <field name="skills">new_school, ski</field>            
-            <field name="experience">8</field>                        
+            <field name="name">Десятник Кирило</field>
+            <field name="skills">new_school, ski</field>
+            <field name="experience">8</field>
         </record>
         <record id="jh_tr02" model="jhall.d_trainer"> 
-            <field name="name">Берзін Валерій</field>                        
-            <field name="skills">акробатика</field>            
-            <field name="experience">9</field>                                    
+            <field name="name">Берзін Валерій</field>
+            <field name="skills">акробатика</field>
+            <field name="experience">9</field>
         </record>
         <record id="jh_tr03" model="jhall.d_trainer"> 
-            <field name="name">НВ</field>                        
-            <field name="skills">акробатика</field>            
-            <field name="experience">8</field>                                    
+            <field name="name">НВ</field>
+            <field name="skills">акробатика</field>
+            <field name="experience">8</field>
         </record>
         <record id="jh_tr04" model="jhall.d_trainer"> 
-            <field name="name">Петрова Олена</field>                        
-            <field name="experience">7</field>            
+            <field name="name">Петрова Олена</field>
+            <field name="experience">7</field>
         </record>
         <record id="jh_tr05" model="jhall.d_trainer"> 
-            <field name="name">Гаф Максим</field>                        
-            <field name="skills">паркур</field>            
-            <field name="experience">7</field>                                    
+            <field name="name">Гаф Максим</field>
+            <field name="skills">паркур</field>
+            <field name="experience">7</field>
         </record>
         <record id="jh_tr06" model="jhall.d_trainer"> 
-            <field name="name">Соколовський Сергій</field>                        
-            <field name="skills">вейк</field>            
-            <field name="experience">7</field>                                    
+            <field name="name">Соколовський Сергій</field>
+            <field name="skills">вейк</field>
+            <field name="experience">7</field>
         </record>
         <record id="jh_tr07" model="jhall.d_trainer"> 
-            <field name="name">Хоботов Сергій</field>                        
-            <field name="experience">7</field>                                    
+            <field name="name">Хоботов Сергій</field>
+            <field name="experience">7</field>
         </record>
         <record id="jh_tr08" model="jhall.d_trainer"> 
-            <field name="name">Дяченко Єгор</field>                        
-            <field name="experience">7</field>                                    
+            <field name="name">Дяченко Єгор</field>
+            <field name="experience">7</field>
         </record>
         <record id="jh_tr09" model="jhall.d_trainer"> 
-            <field name="name">Биков Єгор</field>                        
-            <field name="experience">7</field>                                    
+            <field name="name">Биков Єгор</field>
+            <field name="experience">7</field>
         </record>
         <record id="jh_tr10" model="jhall.d_trainer"> 
-            <field name="name">Сьомик Тетяна</field>                        
-            <field name="experience">7</field>                                    
-        </record>        
+            <field name="name">Сьомик Тетяна</field>
+            <field name="experience">7</field>
+        </record>  
         <record id="jh_tr11" model="jhall.d_trainer"> 
-            <field name="name">Люлька Поліна</field>                        
-            <field name="experience">7</field>                                    
-        </record>        
+            <field name="name">Люлька Поліна</field>
+            <field name="experience">7</field>
+        </record>  
         <record id="jh_tr12" model="jhall.d_trainer"> 
-            <field name="name">Родіонов Іван</field>                        
-            <field name="experience">7</field>                                    
-        </record>        
+            <field name="name">Родіонов Іван</field>
+            <field name="experience">7</field>
+        </record>  
         <record id="jh_tr13" model="jhall.d_trainer"> 
-            <field name="name">Ковальова Катя</field>                        
-            <field name="experience">7</field>                                    
-        </record>   
+            <field name="name">Ковальова Катя</field>
+            <field name="experience">7</field>
+        </record>
 
         <record id="jh_at01" model="jhall.d_abonement_type"> 
-            <field name="name">S (6 міток)</field>                        
-            <field name="short_name">S (6)</field>                                    
-            <field name="n_units">6</field>                                                
-            <field name="is_trainer_included">True</field>                                    
-        </record>   
-        <record id="jh_at02" model="jhall.d_abonement_type"> 
-            <field name="name">M (12 міток)</field>                        
-            <field name="short_name">M (12)</field>                                    
-            <field name="n_units">12</field>                                                
-            <field name="is_trainer_included">True</field>                                    
-        </record>   
-        <record id="jh_at03" model="jhall.d_abonement_type"> 
-            <field name="name">L (18 міток)</field>                        
-            <field name="short_name">L (18)</field>                                    
-            <field name="n_units">18</field>                                                
-            <field name="is_trainer_included">True</field>                                    
-        </record>   
-        <record id="jh_at04" model="jhall.d_abonement_type"> 
-            <field name="name">XL (24 міток)</field>                        
-            <field name="short_name">XL (24)</field>                                    
-            <field name="n_units">24</field>                                                
+            <field name="name">S (6 міток)</field>
+            <field name="short_name">S (6)</field>
+            <field name="n_units">6</field>
             <field name="is_trainer_included">True</field>
-        </record>   
+        </record>
+        <record id="jh_at02" model="jhall.d_abonement_type"> 
+            <field name="name">M (12 міток)</field>
+            <field name="short_name">M (12)</field>
+            <field name="n_units">12</field>
+            <field name="is_trainer_included">True</field>
+        </record>
+        <record id="jh_at03" model="jhall.d_abonement_type"> 
+            <field name="name">L (18 міток)</field>
+            <field name="short_name">L (18)</field>
+            <field name="n_units">18</field>
+            <field name="is_trainer_included">True</field>
+        </record>
+        <record id="jh_at04" model="jhall.d_abonement_type"> 
+            <field name="name">XL (24 міток)</field>
+            <field name="short_name">XL (24)</field>
+            <field name="n_units">24</field>
+            <field name="is_trainer_included">True</field>
+        </record>
         <record id="jh_at05" model="jhall.d_abonement_type"> 
-            <field name="name">10 (10 міток без тренера)</field>                        
-            <field name="short_name">10 БТ</field>                                    
-            <field name="n_units">10</field>                                                            
-            <field name="is_trainer_included">False</field>                                    
-            <field name="days_duration">31</field>                                                            
-        </record>   
+            <field name="name">10 (10 міток без тренера)</field>
+            <field name="short_name">10 БТ</field>
+            <field name="n_units">10</field>
+            <field name="is_trainer_included">False</field>
+            <field name="days_duration">31</field>
+        </record>
         <record id="jh_at06" model="jhall.d_abonement_type"> 
-            <field name="name">20 (20 міток без тренера)</field>                        
-            <field name="short_name">20 БТ</field>                                    
-            <field name="n_units">20</field>                                                
-            <field name="is_trainer_included">False</field>                                    
-            <field name="days_duration">31</field>                                                            
-        </record>   
+            <field name="name">20 (20 міток без тренера)</field>
+            <field name="short_name">20 БТ</field>
+            <field name="n_units">20</field>
+            <field name="is_trainer_included">False</field>
+            <field name="days_duration">31</field>
+        </record>
         <record id="jh_at07" model="jhall.d_abonement_type"> 
-            <field name="name">30 (30 міток без тренера)</field>                        
-            <field name="short_name">30 БТ</field>                                    
-            <field name="n_units">30</field>                                                
-            <field name="is_trainer_included">False</field>                                    
-            <field name="days_duration">31</field>                                                
-        </record>   
+            <field name="name">30 (30 міток без тренера)</field>
+            <field name="short_name">30 БТ</field>
+            <field name="n_units">30</field>
+            <field name="is_trainer_included">False</field>
+            <field name="days_duration">31</field>
+        </record>
 
         <record id="jh_ap01" model="jhall.d_abonement_price"> 
-            <field name="type_id" ref="jh_at01"/>                        
-            <field name="date_begin">2018-06-25</field>                                    
-            <field name="date_end">2020-01-01</field>                                                
-            <field name="price">900</field>                                                
-        </record>   
+            <field name="type_id" ref="jh_at01"/>
+            <field name="date_begin">2018-06-25</field>
+            <field name="date_end">2020-01-01</field>
+            <field name="price">900</field>
+        </record>
         <record id="jh_ap02" model="jhall.d_abonement_price"> 
-            <field name="type_id" ref="jh_at02"/>                        
-            <field name="date_begin">2018-06-25</field>                                    
-            <field name="date_end">2020-01-01</field>                                                
-            <field name="price">1680</field>                                                
-        </record>   
+            <field name="type_id" ref="jh_at02"/>
+            <field name="date_begin">2018-06-25</field>
+            <field name="date_end">2020-01-01</field>
+            <field name="price">1680</field>
+        </record>
         <record id="jh_ap03" model="jhall.d_abonement_price"> 
-            <field name="type_id" ref="jh_at03"/>                        
-            <field name="date_begin">2018-06-25</field>                                    
-            <field name="date_end">2020-01-01</field>                                                
-            <field name="price">2250</field>                                                
-        </record>   
+            <field name="type_id" ref="jh_at03"/>
+            <field name="date_begin">2018-06-25</field>
+            <field name="date_end">2020-01-01</field>
+            <field name="price">2250</field>
+        </record>
         <record id="jh_ap04" model="jhall.d_abonement_price"> 
-            <field name="type_id" ref="jh_at04"/>                        
-            <field name="date_begin">2018-06-25</field>                                    
-            <field name="date_end">2020-01-01</field>                                                
-            <field name="price">2640</field>                                                
-        </record>   
+            <field name="type_id" ref="jh_at04"/>
+            <field name="date_begin">2018-06-25</field>
+            <field name="date_end">2020-01-01</field>
+            <field name="price">2640</field>
+        </record>
         <record id="jh_ap05" model="jhall.d_abonement_price"> 
-            <field name="type_id" ref="jh_at05"/>                        
-            <field name="date_begin">2018-06-25</field>                                    
-            <field name="date_end">2020-01-01</field>                                                
-            <field name="price">2000</field>                                                
-        </record>   
+            <field name="type_id" ref="jh_at05"/>
+            <field name="date_begin">2018-06-25</field>
+            <field name="date_end">2020-01-01</field>
+            <field name="price">2000</field>
+        </record>
         <record id="jh_ap06" model="jhall.d_abonement_price"> 
-            <field name="type_id" ref="jh_at06"/>                        
-            <field name="date_begin">2018-06-25</field>                                    
-            <field name="date_end">2020-01-01</field>                                                
-            <field name="price">3800</field>                                                
-        </record>   
+            <field name="type_id" ref="jh_at06"/>
+            <field name="date_begin">2018-06-25</field>
+            <field name="date_end">2020-01-01</field>
+            <field name="price">3800</field>
+        </record>
         <record id="jh_ap07" model="jhall.d_abonement_price"> 
-            <field name="type_id" ref="jh_at07"/>                        
-            <field name="date_begin">2018-06-25</field>                                    
-            <field name="date_end">2020-01-01</field>                                                
-            <field name="price">6400</field>                                                
-        </record>   
+            <field name="type_id" ref="jh_at07"/>
+            <field name="date_begin">2018-06-25</field>
+            <field name="date_end">2020-01-01</field>
+            <field name="price">6400</field>
+        </record>
 
 
-
-
-
+        <record id="jh_sp01" model="jhall.d_service_price"> 
+            <field name="type_id" ref="jh_st01"/>
+            <field name="date_begin">2018-06-25</field>
+            <field name="date_end">2020-01-01</field>
+            <field name="price_cash">300</field>
+            <field name="price_units">2</field>
+        </record>
+        <record id="jh_sp02" model="jhall.d_service_price"> 
+            <field name="type_id" ref="jh_st02"/>
+            <field name="date_begin">2018-06-25</field>
+            <field name="date_end">2020-01-01</field>
+            <field name="price_cash">400</field>
+            <field name="price_units">2</field>
+        </record>
+        <record id="jh_sp03" model="jhall.d_service_price"> 
+            <field name="type_id" ref="jh_st03"/>
+            <field name="date_begin">2018-06-25</field>
+            <field name="date_end">2020-01-01</field>
+            <field name="price_cash">200</field>
+            <field name="price_units">1</field>
+        </record>
+        <record id="jh_sp04" model="jhall.d_service_price"> 
+            <field name="type_id" ref="jh_st04"/>
+            <field name="date_begin">2018-06-25</field>
+            <field name="date_end">2020-01-01</field>
+            <field name="price_cash">200</field>
+            <field name="price_units">1</field>
+        </record>
+        <record id="jh_sp05" model="jhall.d_service_price"> 
+            <field name="type_id" ref="jh_st05"/>
+            <field name="date_begin">2018-06-25</field>
+            <field name="date_end">2020-01-01</field>
+            <field name="price_cash">200</field>
+            <field name="price_units">1</field>
+        </record>
+        <record id="jh_sp07" model="jhall.d_service_price"> 
+            <field name="type_id" ref="jh_st07"/>
+            <field name="date_begin">2018-06-25</field>
+            <field name="date_end">2020-01-01</field>
+            <field name="price_cashs">300</field>
+        </record>
+        <record id="jh_sp08" model="jhall.d_service_price"> 
+            <field name="type_id" ref="jh_st08"/>
+            <field name="date_begin">2018-06-25</field>
+            <field name="date_end">2020-01-01</field>
+            <field name="price_cash">200</field>
+            <field name="price_units">1</field>
+        </record>
+        <record id="jh_sp09" model="jhall.d_service_price"> 
+            <field name="type_id" ref="jh_st09"/>
+            <field name="date_begin">2018-06-25</field>
+            <field name="date_end">2020-01-01</field>
+            <field name="price_cash">300</field>
+            <field name="price_units">2</field>
+        </record>
+        <record id="jh_sp10" model="jhall.d_service_price"> 
+            <field name="type_id" ref="jh_st10"/>
+            <field name="date_begin">2018-06-25</field>
+            <field name="date_end">2020-01-01</field>
+            <field name="price_cash">300</field>
+            <field name="price_units">2</field>
+        </record>
+        <record id="jh_sp11" model="jhall.d_service_price"> 
+            <field name="type_id" ref="jh_st07"/>
+            <field name="date_begin">2018-06-25</field>
+            <field name="date_end">2020-01-01</field>
+            <field name="price_cash">1200</field>
+        </record>
+        <record id="jh_sp12" model="jhall.d_service_price"> 
+            <field name="type_id" ref="jh_st12"/>
+            <field name="date_begin">2018-06-25</field>
+            <field name="date_end">2020-01-01</field>
+            <field name="price_cash">1200</field>
+        </record>
+        <record id="jh_sp13" model="jhall.d_service_price"> 
+            <field name="type_id" ref="jh_st13"/>
+            <field name="date_begin">2018-06-25</field>
+            <field name="date_end">2020-01-01</field>
+            <field name="price_cash">1300</field>
+        </record>
+        <record id="jh_sp14" model="jhall.d_service_price"> 
+            <field name="type_id" ref="jh_st14"/>
+            <field name="date_begin">2018-06-25</field>
+            <field name="date_end">2020-01-01</field>
+            <field name="price_cash">100</field>
+        </record>
     </data>
 </odoo>

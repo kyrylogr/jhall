@@ -71,12 +71,24 @@ class d_service_type(models.Model):
      description = fields.Text('Description', required = False)     
      is_used = fields.Boolean('Is Used?', required = True, default = True)
      is_coach_included = fields.Boolean('Is trainer included?', required = True, default = False)
-     hall_reserve = fields.Boolean('Complete hall reservation', required = True, default = False)     
      num_customers = fields.Integer('Maximum number of customers', required = True, default = 1)               
      default_unit_time = fields.Integer('Default time (pay unit)', required = True, default = 60)     
      min_time = fields.Integer('Minimum duration (minutes)', required = True, default = 60)          
      max_time = fields.Integer('Maximum duration (minutes)')                         
      time_step = fields.Integer('Step duration (minutes)', required = True, default = 30)          
+     hall_reserve = fields.Boolean('Complete hall reservation', required = True, default = False)          
+     hall_id = fields.Many2one('jhall.d_hall', 'hall',
+            ondelete='restrict', required = False)
+
+class d_service_price(models.Model):
+    _name = 'jhall.d_service_price'
+    _description = 'Service price'        
+    type_id = fields.Many2one('jhall.d_service_type', 'Service Type',
+            ondelete='restrict', required = True)    
+    date_begin = fields.Date('Begin Date', required = True, default = fields.Date.today)
+    date_end = fields.Date('End Date', required = True) 
+    price_cash = fields.Float("Price Cash", (7,2),required = True)
+    price_units = fields.Float("Price Unit", (3,2)) 
 
 class d_trainer(models.Model):
     _name = 'jhall.d_trainer'
@@ -122,7 +134,7 @@ class o_customer(models.Model):
 class h_abonement(models.Model):    
     _name = 'jhall.o_abonement'
     _description = 'Abonement' 
-    name = fields.Char('Number', required = True)    
+    name = fields.Char('Number', required = True, index = True)    
     customer_id = fields.Many2one('jhall.o_customer', 'Client',
             ondelete='restrict', required = True)    
     type_id = fields.Many2one('jhall.d_abonement_type', 'Abonement Type',
