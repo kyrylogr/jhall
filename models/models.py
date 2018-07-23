@@ -131,10 +131,16 @@ class o_customer(models.Model):
         ('viber', 'Viber'),
         ('telegram', 'Telegram')], string = "Preferred communication")
 
-class h_abonement(models.Model):    
+class h_abonement(models.Model):
     _name = 'jhall.o_abonement'
     _description = 'Abonement' 
     name = fields.Char('Number', required = True, index = True)
+    state = fields.Selection([
+        (1, 'New'),
+        (2, 'Active'),
+        (3, 'Expired'),
+        (4, 'Closed')], string = "State", default = 1, required = True)
+
     customer_id = fields.Many2one('jhall.o_customer', 'Client',
             ondelete='restrict', required = True)
     type_id = fields.Many2one('jhall.d_abonement_type', 'Abonement Type',
@@ -148,6 +154,7 @@ class h_abonement(models.Model):
     date_payment = fields.Date('Pay Date', required = False)
     date_activate = fields.Date('Activate Date')
     date_expire = fields.Date('Expire Date')
+    date_close = fields.Date('Expire Date')
     units = fields.Integer("Units", required = True)
     units_left = fields.Integer("Units left", default = 0, required = True, 
             compute="_compute_units_left", store=True)
@@ -186,8 +193,13 @@ class h_abonement(models.Model):
             ('date_begin','<=',fields.Date.today()),
             ('date_end','>=',fields.Date.today())] )
         if (res):
-            self.price = res.price                   
-            self.left_to_pay = res.price                   
+            self.price = res.price
+            self.left_to_pay = res.price
+
+    @api.onchange('paid')
+    def _paid_change(self):
+        if (self.paid != 0) and (self.date_payment == 0):
+            self.date_payment = fields.Date.today()
 
 
 class o_trainer_schedule(models.Model):    

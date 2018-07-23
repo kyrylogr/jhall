@@ -201,20 +201,19 @@
       </field>
     </record>
 
-
-
     <record model="ir.ui.view" id="jhall.v_t_abonement">
       <field name="name">Abonement</field>
       <field name="model">jhall.o_abonement</field>
       <field name="search_view_id">jhall.v_s_abonement</field>
       <field name="arch" type="xml">
         <tree>
+          <field name="state"/>                    
           <field name="name"/>
           <field name="customer_id"/>
           <field name="type_id"/>
           <field name="left_to_pay"/>
-          <field name="units"/>
           <field name="units_left"/>
+          <field name="units"/>
           <field name="date_activate"/>
           <field name="date_expire"/>
         </tree>
@@ -226,6 +225,7 @@
       <field name="model">jhall.o_abonement</field>
       <field name="arch" type="xml">
         <search>
+         <field name="state"/>        
          <field name="name"/>
          <field name="customer_id"/>
          <field name="left_to_pay"/>
@@ -235,12 +235,12 @@
          <field name="date_payment"/>
          <field name="date_expire"/>
          <filter name="not paid" string="not paid"
-            domain="[('left_to_pay', '>', 0)]"/>
-
+            domain="[('left_to_pay', '&gt;', 0)]"/>
+         <filter name="expired" string="expired by date"
+            domain="[('date_expire', '&lt;', datetime.datetime.now().strftime('%Y-%m-%d 00:00:00') )]"/>
         </search>
       </field>
     </record>
-
 
     <record model="ir.ui.view" id="jhall.v_f_abonement">
       <field name="name">Abonement</field>
@@ -249,12 +249,13 @@
         <form>
           <group>
             <field name="name"/>
+            <field name="state"/>            
+            <field name="date_issue"/>            
             <field name="type_id"/>
             <field name="price" readonly = "1"  force_save="1"/>
             <field name="customer_id"/>
-            <field name="date_issue" />
+            <field name="paid"/>            
             <field name="date_payment"/>
-            <field name="paid"/>
             <field name="left_to_pay"  readonly = "1"  force_save="1"/>
             <field name="units" readonly = "1"  force_save="1"/>
             <field name="units_left"  readonly = "1"  force_save="1"/>
@@ -266,7 +267,6 @@
         </form>
       </field>
     </record>
-
 
     <record model="ir.ui.view" id="jhall.v_t_trainer">
       <field name="name">Trainer</field>
@@ -316,7 +316,6 @@
         </form>
       </field>
     </record>
-
 
 <!--  <menuitem name="Service Type" id="jh_menu_service_type" 
         action="jh_aview_service_type"  
