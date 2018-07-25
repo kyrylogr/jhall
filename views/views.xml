@@ -26,12 +26,12 @@
         view_mode="tree,form" 
     />
     <act_window id="jh_aview_service_category"
-        name="Equipment"
+        name="Equipment category"
         res_model="jhall.d_service_category"
         view_mode="tree,form" 
     />
     <act_window id="jh_aview_service_type"
-        name="Equipment"
+        name="Service type"
         res_model="jhall.d_service_type"
         view_mode="tree,form" 
     />

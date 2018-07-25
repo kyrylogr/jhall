@@ -42,7 +42,7 @@ price_units
 
 o_trainer
 
-d_schedule_type
+????d_schedule_type
 week_day_start
 week_day_end
 week_end_start
