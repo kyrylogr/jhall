@@ -261,8 +261,11 @@
             <field name="units_left"  readonly = "1"  force_save="1"/>
             <field name="units_used"/>
             <field name="units_used_fine"/>
-            <field name="date_activate"/>
-            <field name="date_expire"/>
+            <field name="date_activate" readonly = "1"  force_save="1"/>
+            <field name="date_expire" readonly = "1"  force_save="1"/>
+            <field name="date_close" readonly = "1"  force_save="1"/>
+            <field name="notes"/>
+            <field name="closed_by_user_id"  readonly = "1"  force_save="1"/>
           </group>
         </form>
       </field>

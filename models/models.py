@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api
+from odoo.exceptions import UserError, ValidationError
+
 
 class d_region(models.Model):
      _name = 'jhall.d_region'
@@ -130,6 +132,7 @@ class o_customer(models.Model):
         ('sms', 'sms'),
         ('viber', 'Viber'),
         ('telegram', 'Telegram')], string = "Preferred communication")
+    
 
 class h_abonement(models.Model):
     _name = 'jhall.o_abonement'
@@ -140,7 +143,6 @@ class h_abonement(models.Model):
         (2, 'Active'),
         (3, 'Expired'),
         (4, 'Closed')], string = "State", default = 1, required = True)
-
     customer_id = fields.Many2one('jhall.o_customer', 'Client',
             ondelete='restrict', required = True)
     type_id = fields.Many2one('jhall.d_abonement_type', 'Abonement Type',
@@ -154,7 +156,7 @@ class h_abonement(models.Model):
     date_payment = fields.Date('Pay Date', required = False)
     date_activate = fields.Date('Activate Date')
     date_expire = fields.Date('Expire Date')
-    date_close = fields.Date('Expire Date')
+    date_close = fields.Date('Close Date')
     units = fields.Integer("Units", required = True)
     units_left = fields.Integer("Units left", default = 0, required = True, 
             compute="_compute_units_left", store=True)
@@ -162,6 +164,9 @@ class h_abonement(models.Model):
             compute="_compute_units_total_used", store=True)
     units_used = fields.Integer("Units used normally", default = 0, required = True, readonly = True)
     units_used_fine = fields.Integer("Units fined", default = 0, required = True, readonly = True)
+    notes = fields.Text('Notes')
+    closed_by_user_id = fields.Many2one('res.users', 'Closed by user',
+            ondelete='restrict')
 
     @api.depends('paid', 'price')
     def _compute_left_to_pay(self):
@@ -180,8 +185,22 @@ class h_abonement(models.Model):
                 record.units - record.units_used 
                 - record.units_used_fine)
 
+    @api.onchange('state')
+    def _state_change(self):
+        if (self.state==4):
+            self.closed_by_user_id = self.env.user
+            self.date_close = fields.Date.today()
+        else:
+            self.closed_by_user_id = None
+            if (self.date_close!=0):
+                self.date_close = None
+            if (self.state==2):
+                self.date_activate = fields.Date.today()
+
     @api.onchange('type_id')
-    def _compute_units(self):
+    def _type_id_change_compute_units(self):
+        if (self.state>=2):
+            raise ValidationError("Can not change type of active abonement")
         self.units = self.type_id.n_units
 
 # if these fields are changed, call method
