@@ -50,39 +50,57 @@
         res_model="jhall.d_abonement_price"
         view_mode="tree,form" 
     />
-    <act_window id="jh_aview_abonement"
-        name="Abonement"
-        res_model="jhall.o_abonement"
+    <act_window id="jh_aview_trainer"
+        name="Trainers"
+        res_model="jhall.d_trainer"
         view_mode="tree,form" 
     />
-    <act_window id="jh_aview_client"
-        name="Client"
-        res_model="jhall.o_customer"
-        view_mode="tree,form" 
-    />
+    
     <act_window id="jh_aview_trainer_schedule"
         name="Trainer schedule"
         res_model="jhall.o_trainer_schedule"
         view_mode="tree,form" 
     />
 
-    <act_window id="jh_aview_trainer"
-        name="Trainers"
-        res_model="jhall.d_trainer"
+    <act_window id="jh_aview_abonement"
+        name="Abonements"
+        res_model="jhall.o_abonement"
+        view_mode="tree,form" 
+    />
+    <act_window id="jh_aview_client"
+        name="Clients"
+        res_model="jhall.o_customer"
+        view_mode="tree,form" 
+    />
+    <act_window id="jh_aview_visits"
+        name="Visits"
+        res_model="jhall.h_customer_visit"
+        view_mode="tree,form" 
+    />
+    <act_window id="jh_aview_customer_interraction"
+        name="Client interractions"
+        res_model="jhall.o_customer_interraction"
         view_mode="tree,form" 
     />
       
     <menuitem name="JumpingHall" id="jh_menu_main"/>
     <menuitem name="JH Hall" id="jh_menu_hall"/>
-    <menuitem name="Client" id="jh_menu_client" 
+    <menuitem name="Clients" id="jh_menu_client" 
         action="jh_aview_client"  
         parent="jh_menu_hall"/>
     <menuitem name="Trainer schedule" id="jh_menu_trainer_schedule" 
         action="jh_aview_trainer_schedule"  
         parent="jh_menu_hall"/>
-    <menuitem name="Abonement" id="jh_menu_aview_abonement" 
+    <menuitem name="Abonements" id="jh_menu_aview_abonement" 
         action="jh_aview_abonement"  
         parent="jh_menu_hall"/>
+    <menuitem name="Visits" id="jh_menu_aview_visit" 
+        action="jh_aview_visits"
+        parent="jh_menu_hall"/>
+    <menuitem name="Contact" id="jh_menu_aview_customer_interraction" 
+        action="jh_aview_customer_interraction"  
+        parent="jh_menu_hall"/>
+
 
     <menuitem name="JH Dictionaries" id="jh_menu_dictionaries"/>
     <menuitem name="Regions" id="jh_menu_regions" action="jh_aview_regions" 
@@ -181,7 +199,7 @@
         <tree>
           <field name="type_id"/>
           <field name="price_cash"/>
-          <field name="price_units"/>          
+          <field name="price_units"/>
           <field name="date_begin"/>
           <field name="date_end"/>
         </tree>
@@ -201,13 +219,29 @@
       </field>
     </record>
 
+    <record model="ir.ui.view" id="jhall.v_t_customer">
+      <field name="name">Clients</field>
+      <field name="model">jhall.o_customer</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="partner_id"/>
+          <field name="date_register"/>
+          <field name="last_visit_date"/>
+          <field name="last_visit_hall"/>
+          <field name="date_last_contact"/>
+          <field name="count_visits"/>
+          <field name="next_visit_date"/>
+        </tree>
+      </field>
+    </record>    
+
     <record model="ir.ui.view" id="jhall.v_t_abonement">
       <field name="name">Abonement</field>
       <field name="model">jhall.o_abonement</field>
       <field name="search_view_id">jhall.v_s_abonement</field>
       <field name="arch" type="xml">
         <tree>
-          <field name="state"/>                    
+          <field name="state"/>
           <field name="name"/>
           <field name="customer_id"/>
           <field name="type_id"/>
@@ -225,7 +259,7 @@
       <field name="model">jhall.o_abonement</field>
       <field name="arch" type="xml">
         <search>
-         <field name="state"/>        
+         <field name="state"/>
          <field name="name"/>
          <field name="customer_id"/>
          <field name="left_to_pay"/>
@@ -249,12 +283,12 @@
         <form>
           <group>
             <field name="name"/>
-            <field name="state"/>            
-            <field name="date_issue"/>            
+            <field name="state"/>
+            <field name="date_issue"/>
             <field name="type_id"/>
             <field name="price" readonly = "1"  force_save="1"/>
             <field name="customer_id"/>
-            <field name="paid"/>            
+            <field name="paid"/>
             <field name="date_payment"/>
             <field name="left_to_pay"  readonly = "1"  force_save="1"/>
             <field name="units" readonly = "1"  force_save="1"/>
@@ -270,6 +304,63 @@
         </form>
       </field>
     </record>
+
+    <record model="ir.ui.view" id="jhall.v_t_visit">
+      <field name="name">Abonement</field>
+      <field name="model">jhall.h_customer_visit</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="date_visit"/>
+          <field name="hall_id"/>
+          <field name="state"/>
+          <field name="customer_id"/>
+          <field name="time_begin"/>
+          <field name="visit_amount_units"/>
+          <field name="prepayment"/>
+          <field name="left_to_pay"/>
+          <field name="user_remind"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="jhall.v_t_visit">
+      <field name="name">Visits</field>
+      <field name="model">jhall.h_customer_visit</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="date_visit"/>
+          <field name="hall_id"/>
+          <field name="state"/>
+          <field name="customer_id"/>
+          <field name="time_begin"/>
+          <field name="visit_amount_units"/>
+          <field name="prepayment"/>
+          <field name="left_to_pay"/>
+          <field name="user_remind"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="jhall.v_t_customer_interraction">
+      <field name="name">Client interractions</field>
+      <field name="model">jhall.o_customer_interraction</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="date_contact"/>
+          <field name="hall_id"/>
+          <field name="state"/>
+          <field name="customer_id"/>
+          <field name="initial_mean"/>
+          <field name="executed_mean"/>          
+          <field name="customer_confirmed"/>
+          <field name="responce_loyality"/>
+          <field name="date_time_contact"/>
+          <field name="user_performed"/>
+          <field name="notes"/>
+        </tree>
+      </field>
+    </record>
+
 
     <record model="ir.ui.view" id="jhall.v_t_trainer">
       <field name="name">Trainer</field>

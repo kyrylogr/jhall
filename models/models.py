@@ -127,22 +127,31 @@ class o_customer(models.Model):
     _inherits = {'res.partner': "partner_id"}
     partner_id = fields.Many2one('res.partner',ondelete='restrict',required=True)
     date_register = fields.Date('Date of birth', required = False)
-    date_birth = fields.Date('Date of birth', required = False)
+    date_birth = fields.Date('Date register', required = False)
     prefered_communication = fields.Selection([
         ('phone', 'Phone'),
         ('sms', 'sms'),
         ('viber', 'Viber'),
         ('telegram', 'Telegram')], string = "Preferred communication")
     notes = fields.Text('Notes')    
-    date_last_visit = fields.Date('Date Last Visit')
-    date_last_contact = fields.Date('Date Last Contact')
-    date_next_visit = fields.Date('Date Next Visit')
-    date_next_contact = fields.Date('Date Next Contact')
+    last_visit = fields.Many2one('jhall.h_customer_visit', "Last Visit", 
+       ondelete='set null', auto_join=True)
+    last_visit_date = fields.Date('Last Visit Date',
+       related='last_visit.date_visit')
+    last_visit_hall = fields.Many2one('jhall.d_hall','Last Visit Location',
+       related='last_visit.hall_id')
+    next_visit = fields.Many2one('jhall.h_customer_visit', "Next Visit", 
+       ondelete='set null', auto_join=True)
+    next_visit_date = fields.Date('Next Visit Date',
+       related='next_visit.date_visit')
+    next_visit_hall = fields.Many2one('jhall.d_hall' ,'Next Visit Location',
+       related='next_visit.hall_id')                  
     count_visits = fields.Integer('Number of visits')
     count_cancels = fields.Integer('Number of cancels')
-    date_last_cancel = fields.Integer('Date of last cancel')
+    date_last_cancel = fields.Date('Date of last cancel')
     count_fines = fields.Integer('Count fines')
-    date_last_fine = fields.Integer('Date last fine')
+    date_last_fine = fields.Date('Date last fine')
+    date_last_contact = fields.Date('Date last contact')
     abonements = fields.One2many('jhall.o_abonement',
         'customer_id', string="Abonements")
     visits = fields.One2many('jhall.h_customer_visit',
@@ -204,7 +213,7 @@ class h_abonement(models.Model):
     @api.onchange('state')
     def _state_change(self):
         if (self.state==4):
-            self.closed_by_user_id = self.env.user
+            self.closed_by_user_id = self.env.uid
             self.date_close = fields.Date.today()
         else:
             self.closed_by_user_id = None
@@ -253,29 +262,34 @@ class o_trainer_schedule(models.Model):
 
 class h_customer_visit(models.Model):    
     _name = 'jhall.h_customer_visit'
-    _description = 'Client visit'            
+    _description = 'Client visit'
 #    date_register = fields.Date('Date add'
 #   date of addition and used who added are in system fields    
     date_visit = fields.Date('Date visit', required = True)
+    time_begin = fields.Float('Time begin', required = True)
+    time_end = fields.Float('Time end', required = True)
     state = fields.Selection([
         (1, 'Request'),
         (2, 'Agree'),
-        (3, 'Cancel'),        
+        (3, 'Cancel'),
         (4, 'Reschedule'),
-        (5, 'Confirm'),        
+        (5, 'Confirm'),
         (6, 'No client'),
-        (7, 'Completed')], string = "State", default = 1, required = True)    
+        (7, 'Completed')], string = "State", default = 1, required = True)
     hall_id = fields.Many2one('jhall.d_hall', 'Hall',
             ondelete='restrict', required = True)
     customer_id = fields.Many2one('jhall.o_customer', 'Client',
             ondelete='restrict', required = True)
     date_rescheduled_to = fields.Date('Rescheduled to date')
     notes = fields.Text('Notes')
+    visit_amount = fields.Float('Amount cash', (12,2))
+    visit_amount_units = fields.Float('Amount units', (12,2))
     prepayment = fields.Float('Prepayment', (12,2))
+    left_to_pay = fields.Float('Left to pay', (12,2))
     payment_notes = fields.Char('Payment notes')
     client_notes = fields.Text('Client notes')
-    date_remind = fields.Date('Date remind')    
-    user_remind = fields.Many2one('res.users', 'Remind by manager')    
+    date_remind = fields.Date('Date remind')
+    user_remind = fields.Many2one('res.users', 'Remind by manager')
     remind_info = fields.Text('Remind Info')
     remind_contact = fields.Many2one('jhall.o_customer_interraction', 'Remind contact',
             ondelete='restrict', required = True)
@@ -291,13 +305,13 @@ class o_customer_interraction(models.Model):
         ('telegram', 'Telegram'),
         ('talk', 'speech'),
         ('other', 'other')], string = "Communication mean", required = True)
-    additional_mean  = fields.Selection([
+    executed_mean  = fields.Selection([
         ('phone', 'Phone'),
         ('sms', 'sms'),
         ('viber', 'Viber'),
         ('telegram', 'Telegram'),
         ('talk', 'speech'),
-        ('other', 'other')], string = "Additional mean")       
+        ('other', 'other')], string = "Executed mean")     
     hall_id = fields.Many2one('jhall.d_hall', 'Hall',
             ondelete='restrict', required = True)
     customer_id = fields.Many2one('jhall.o_customer', 'Client',
@@ -309,7 +323,7 @@ class o_customer_interraction(models.Model):
         ('attempt', 'attempt'),
         ('sent', 'sent'),
         ('success', 'success'),
-        ('giveup', 'giveup')], string = "Communication mean")
+        ('giveup', 'giveup')], string = "State")
     num_attempts = fields.Integer('Number of attempts')
     last_attempt = fields.Datetime('Last Attempt')
     notes = fields.Text('Notes')
