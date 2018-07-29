@@ -23,7 +23,7 @@ class d_hall(models.Model):
      region_id = fields.Many2one('jhall.d_region', 'Region',
             ondelete='restrict')
 
-class d_spot(models.Model):
+class d_spot(models.Model): 
      _name = 'jhall.d_spot'
      _description = 'Space in hall'
      name = fields.Char('Name', required = True)
@@ -85,7 +85,7 @@ class d_service_type(models.Model):
 
 class d_service_price(models.Model):
     _name = 'jhall.d_service_price'
-    _description = 'Service price'        
+    _description = 'Service price'
     type_id = fields.Many2one('jhall.d_service_type', 'Service Type',
             ondelete='restrict', required = True)
     date_begin = fields.Date('Begin Date', required = True, default = fields.Date.today)
@@ -115,7 +115,7 @@ class d_abonement_type(models.Model):
 
 class d_abonement_price(models.Model):
     _name = 'jhall.d_abonement_price'
-    _description = 'Abonement price'        
+    _description = 'Abonement price'
     type_id = fields.Many2one('jhall.d_abonement_type', 'Abonement Type',
             ondelete='restrict', required = True)
     date_begin = fields.Date('Begin Date', required = True, default = fields.Date.today)
@@ -124,7 +124,7 @@ class d_abonement_price(models.Model):
 
 class o_customer(models.Model):
     _name = 'jhall.o_customer'
-    _description = 'Client'        
+    _description = 'Client'
     _inherits = {'res.partner': "partner_id"}
     partner_id = fields.Many2one('res.partner',ondelete='restrict',required=True)
     date_register = fields.Date('Date of birth', required = False)
@@ -134,7 +134,7 @@ class o_customer(models.Model):
         ('sms', 'sms'),
         ('viber', 'Viber'),
         ('telegram', 'Telegram')], string = "Preferred communication")
-    notes = fields.Text('Notes')    
+    notes = fields.Text('Notes')
     last_visit = fields.Many2one('jhall.h_customer_visit', "Last Visit", 
        ondelete='set null', auto_join=True)
     last_visit_date = fields.Date('Last Visit Date',
@@ -146,7 +146,7 @@ class o_customer(models.Model):
     next_visit_date = fields.Date('Next Visit Date',
        related='next_visit.date_visit')
     next_visit_hall = fields.Many2one('jhall.d_hall' ,'Next Visit Location',
-       related='next_visit.hall_id')                  
+       related='next_visit.hall_id')
     count_visits = fields.Integer('Number of visits')
     count_cancels = fields.Integer('Number of cancels')
     date_last_cancel = fields.Date('Date of last cancel')
@@ -187,7 +187,7 @@ class h_abonement(models.Model):
     units = fields.Integer("Units", required = True)
     units_left = fields.Integer("Units left", default = 0, required = True, 
             compute="_compute_units_left", store=True)
-    units_total_used = fields.Integer("Used units",  
+    units_total_used = fields.Integer("Used units",
             compute="_compute_units_total_used", store=True)
     units_used = fields.Integer("Units used normally", default = 0, required = True, readonly = True)
     units_used_fine = fields.Integer("Units fined", default = 0, required = True, readonly = True)
@@ -257,9 +257,9 @@ class h_abonement(models.Model):
         if (self.paid != 0) and (self.date_payment == 0):
             self.date_payment = fields.Date.today()
 
-class o_trainer_schedule(models.Model):    
+class o_trainer_schedule(models.Model):
     _name = 'jhall.o_trainer_schedule'
-    _description = 'Abonement'            
+    _description = 'Abonement'
     trainer_id = fields.Many2one('jhall.d_trainer', 'Trainer',
             ondelete='restrict', required = True)
     hall_id = fields.Many2one('jhall.d_hall', 'Hall',
@@ -274,11 +274,11 @@ class o_trainer_schedule(models.Model):
     service_type = fields.Many2one('jhall.d_service_type', 'Service Type',
             required = False)
 
-class h_customer_visit(models.Model):    
+class h_customer_visit(models.Model):
     _name = 'jhall.h_customer_visit'
     _description = 'Client visit'
 #    date_register = fields.Date('Date add'
-#   date of addition and used who added are in system fields    
+#   date of addition and used who added are in system fields
     date_visit = fields.Date('Date visit', required = True)
     time_begin = fields.Float('Time begin', required = True)
     time_end = fields.Float('Time end', required = True)
@@ -308,7 +308,7 @@ class h_customer_visit(models.Model):
     remind_contact = fields.Many2one('jhall.o_customer_interraction', 'Remind contact',
             ondelete='restrict', required = True)
 
-class h_visit_payment(models.Model):    
+class h_visit_payment(models.Model):
     _name = 'jhall.h_visit_payment'
     _description = 'Client visit'
     cash_amount = fields.Float('Cash Amount', (12,2))
@@ -323,10 +323,10 @@ class h_visit_payment(models.Model):
 #   add constraint that abonement date_expire 
 #   should not be less than date_visit
 
-class o_customer_interraction(models.Model):    
+class o_customer_interraction(models.Model):
     _name = 'jhall.o_customer_interraction'
     _description = 'Customer interraction'
-    date_contact = fields.Date('Date contact', required = True)    
+    date_contact = fields.Date('Date contact', required = True)
     initial_mean = fields.Selection([
         ('phone', 'Phone'),
         ('sms', 'sms'),
@@ -340,7 +340,7 @@ class o_customer_interraction(models.Model):
         ('viber', 'Viber'),
         ('telegram', 'Telegram'),
         ('talk', 'speech'),
-        ('other', 'other')], string = "Executed mean")     
+        ('other', 'other')], string = "Executed mean") 
     hall_id = fields.Many2one('jhall.d_hall', 'Hall',
             ondelete='restrict', required = True)
     customer_id = fields.Many2one('jhall.o_customer', 'Client',
@@ -358,6 +358,6 @@ class o_customer_interraction(models.Model):
     notes = fields.Text('Notes')
     customer_responce = fields.Text('Responce')
     customer_confirmed = fields.Boolean('Customer confirmed')
-    responce_loyality =  fields.Integer('Responce loyality')    
+    responce_loyality =  fields.Integer('Responce loyality')
     user_performed = fields.Many2one('res.users', 'Performed by user')
     date_time_contact = fields.Datetime('Date and time of contact')
