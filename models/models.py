@@ -2,7 +2,8 @@
 
 from odoo import models, fields, api
 from odoo.exceptions import UserError, ValidationError
-
+import datetime
+import dateutil.parser
 
 class d_region(models.Model):
      _name = 'jhall.d_region'
@@ -152,6 +153,7 @@ class o_customer(models.Model):
     count_fines = fields.Integer('Count fines')
     date_last_fine = fields.Date('Date last fine')
     date_last_contact = fields.Date('Date last contact')
+    date_next_contact = fields.Date('Date next scheduled contact')
     abonements = fields.One2many('jhall.o_abonement',
         'customer_id', string="Abonements")
     visits = fields.One2many('jhall.h_customer_visit',
@@ -190,6 +192,8 @@ class h_abonement(models.Model):
     units_used = fields.Integer("Units used normally", default = 0, required = True, readonly = True)
     units_used_fine = fields.Integer("Units fined", default = 0, required = True, readonly = True)
     notes = fields.Text('Notes')
+    payments = fields.One2many('jhall.h_visit_payment', 'abonement', 
+            string = 'Payments')
     closed_by_user_id = fields.Many2one('res.users', 'Closed by user',
             ondelete='restrict')
 
@@ -221,6 +225,14 @@ class h_abonement(models.Model):
                 self.date_close = None
             if (self.state==2):
                 self.date_activate = fields.Date.today()
+
+    @api.onchange('date_activate')
+    def _date_activate_change(self):
+        if (self.date_activate!=0):
+            if (self.type_id==None):
+                raise ValidationError("Type must be filled before activation")
+            self.date_expire = ( dateutil.parser.parse(self.date_activate).date() + 
+                datetime.timedelta(days=self.type_id.days_duration))
 
     @api.onchange('type_id')
     def _type_id_change_compute_units(self):
@@ -259,6 +271,8 @@ class o_trainer_schedule(models.Model):
     time_end = fields.Float('Time end', required = True)
     break_begin = fields.Float('Break begin', required = False)
     break_end = fields.Float('Break end', required = False)
+    service_type = fields.Many2one('jhall.d_service_type', 'Service Type',
+            required = False)
 
 class h_customer_visit(models.Model):    
     _name = 'jhall.h_customer_visit'
@@ -293,6 +307,21 @@ class h_customer_visit(models.Model):
     remind_info = fields.Text('Remind Info')
     remind_contact = fields.Many2one('jhall.o_customer_interraction', 'Remind contact',
             ondelete='restrict', required = True)
+
+class h_visit_payment(models.Model):    
+    _name = 'jhall.h_visit_payment'
+    _description = 'Client visit'
+    cash_amount = fields.Float('Cash Amount', (12,2))
+    unit_amount = fields.Float('Unit Amount', (12,2))
+    abonement = fields.Many2one('jhall.o_abonement', 'Abonement')
+    visit = fields.Many2one('jhall.h_customer_visit', 'Visit')
+    date_visit = fields.Date('Date visit', related='visit.date_visit')
+    customer_id = fields.Many2one('jhall.o_customer', 'Client',
+        related='visit.customer_id')
+    hall_id = fields.Many2one('jhall.o_customer', 'Hall',
+        related='visit.customer_id')
+#   add constraint that abonement date_expire 
+#   should not be less than date_visit
 
 class o_customer_interraction(models.Model):    
     _name = 'jhall.o_customer_interraction'

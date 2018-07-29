@@ -233,7 +233,7 @@
           <field name="next_visit_date"/>
         </tree>
       </field>
-    </record>    
+    </record>
 
     <record model="ir.ui.view" id="jhall.v_t_abonement">
       <field name="name">Abonement</field>
@@ -299,6 +299,7 @@
             <field name="date_expire" readonly = "1"  force_save="1"/>
             <field name="date_close" readonly = "1"  force_save="1"/>
             <field name="notes"/>
+            <field name="payments"/>
             <field name="closed_by_user_id"  readonly = "1"  force_save="1"/>
           </group>
         </form>
@@ -351,7 +352,7 @@
           <field name="state"/>
           <field name="customer_id"/>
           <field name="initial_mean"/>
-          <field name="executed_mean"/>          
+          <field name="executed_mean"/>
           <field name="customer_confirmed"/>
           <field name="responce_loyality"/>
           <field name="date_time_contact"/>
@@ -400,16 +401,33 @@
             <field name="trainer_id"/>
             <field name="hall_id"/>
             <field name="day_numbers"/>
-            <field name="date_begin"/>
-            <field name="date_end"/>
             <field name="time_begin" widget="float_time"/>
             <field name="time_end" widget="float_time"/>
             <field name="break_begin" widget="float_time"/>
             <field name="break_begin" widget="float_time"/>
+            <field name="date_begin"/>
+            <field name="date_end"/>
+            <field name="service_type"/>
           </group>
         </form>
       </field>
     </record>
+
+    <record model="ir.ui.view" id="jhall.v_t_visit_payment">
+      <field name="name">Visit payment</field>
+      <field name="model">jhall.h_visit_payment</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="date_visit"/>
+          <field name="customer_id"/>
+          <field name="cash_amount"/>
+          <field name="unit_amount"/>
+          <field name="abonement"/>
+          <field name="hall_id"/>
+        </tree>
+      </field>
+    </record>
+
 
 <!--  <menuitem name="Service Type" id="jh_menu_service_type" 
         action="jh_aview_service_type"  
