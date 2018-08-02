@@ -229,7 +229,7 @@ class h_abonement(models.Model):
     @api.onchange('date_activate')
     def _date_activate_change(self):
         if (self.date_activate!=0):
-            if (self.type_id==None):
+            if (self.type_id is None):
                 raise ValidationError("Type must be filled before activation")
             self.date_expire = ( dateutil.parser.parse(self.date_activate).date() + 
                 datetime.timedelta(days=self.type_id.days_duration))
@@ -277,8 +277,7 @@ class o_trainer_schedule(models.Model):
 class h_customer_visit(models.Model):
     _name = 'jhall.h_customer_visit'
     _description = 'Client visit'
-#    date_register = fields.Date('Date add'
-#   date of addition and used who added are in system fields
+#   date of insert and user who added are in system fields
     date_visit = fields.Date('Date visit', required = True)
     time_begin = fields.Float('Time begin', required = True)
     time_end = fields.Float('Time end', required = True)
@@ -288,8 +287,9 @@ class h_customer_visit(models.Model):
         (3, 'Cancel'),
         (4, 'Reschedule'),
         (5, 'Confirm'),
-        (6, 'No client'),
-        (7, 'Completed')], string = "State", default = 1, required = True)
+        (6, 'Cancel with fine'),
+        (7, 'No client'),
+        (8, 'Completed')], string = "State", default = 2, required = True)
     hall_id = fields.Many2one('jhall.d_hall', 'Hall',
             ondelete='restrict', required = True)
     customer_id = fields.Many2one('jhall.o_customer', 'Client',
@@ -306,20 +306,48 @@ class h_customer_visit(models.Model):
     user_remind = fields.Many2one('res.users', 'Remind by manager')
     remind_info = fields.Text('Remind Info')
     remind_contact = fields.Many2one('jhall.o_customer_interraction', 'Remind contact',
+            ondelete='restrict', required = False)
+
+class h_schedule_book(models.Model):
+    _name = 'jhall.h_schedule_booking'
+    _description = 'Schedule book'
+#   date of insert and user who added are in system fields
+    hall_id = fields.Many2one('jhall.d_hall', 'Hall',
             ondelete='restrict', required = True)
+    date_book = fields.Date('Date schedule', required = True, index = True)
+    time_begin = fields.Float('Time begin', required = True)
+    time_end = fields.Float('Time end', required = True)
+    customer_id = fields.Many2one('jhall.o_customer', 'Client',
+            ondelete='restrict', required = False)
+    service_type = fields.Many2one('jhall.d_service_type', 'Service Type',
+            ondelete='restrict', required = True)
+    trainer_id = fields.Many2one('jhall.o_trainer', 'Trainer',
+            ondelete='restrict', required = False)
+    equipment_id = fields.Many2one('jhall.h_equipment', 'Equipment',
+            ondelete='restrict', required = False)
+    book_state = fields.Selection([
+        (1, 'Request'),
+        (2, 'Agree'),
+        (3, 'Cancel'),
+        (5, 'Confirm'),
+        (6, 'Cancel with fine'),
+        (7, 'No client'),
+        (8, 'Completed')], string = "Book state", default = 2, required = True)
+    visit = fields.Many2one('jhall.h_customer_visit', 'Visit',
+            ondelete='restrict', required = False)
 
 class h_visit_payment(models.Model):
     _name = 'jhall.h_visit_payment'
     _description = 'Client visit'
+    hall_id = fields.Many2one('jhall.o_customer', 'Hall',
+        related='visit.customer_id')
+    visit = fields.Many2one('jhall.h_customer_visit', 'Visit')        
+    customer_id = fields.Many2one('jhall.o_customer', 'Client',
+        related='visit.customer_id')
     cash_amount = fields.Float('Cash Amount', (12,2))
     unit_amount = fields.Float('Unit Amount', (12,2))
     abonement = fields.Many2one('jhall.o_abonement', 'Abonement')
-    visit = fields.Many2one('jhall.h_customer_visit', 'Visit')
     date_visit = fields.Date('Date visit', related='visit.date_visit')
-    customer_id = fields.Many2one('jhall.o_customer', 'Client',
-        related='visit.customer_id')
-    hall_id = fields.Many2one('jhall.o_customer', 'Hall',
-        related='visit.customer_id')
 #   add constraint that abonement date_expire 
 #   should not be less than date_visit
 
