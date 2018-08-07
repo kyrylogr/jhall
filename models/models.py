@@ -179,18 +179,22 @@ class h_abonement(models.Model):
     paid = fields.Float("Amount Paid", (12,2), default = 0)
     left_to_pay = fields.Float("Amount Left", (12,2), default = 0, 
             compute="_compute_left_to_pay", store=True)
-    date_issue = fields.Date('Issue Date', required = False, default = fields.Date.today)
+    date_issue = fields.Date('Issue Date', required = False, 
+            default = fields.Date.today)
     date_payment = fields.Date('Pay Date', required = False)
     date_activate = fields.Date('Activate Date')
     date_expire = fields.Date('Expire Date')
     date_close = fields.Date('Close Date')
     units = fields.Integer("Units", required = True)
-    units_left = fields.Integer("Units left", default = 0, required = True, 
+    units_left = fields.Integer("Units left", default = 0, 
+            required = True, 
             compute="_compute_units_left", store=True)
     units_total_used = fields.Integer("Used units",
             compute="_compute_units_total_used", store=True)
-    units_used = fields.Integer("Units used normally", default = 0, required = True, readonly = True)
-    units_used_fine = fields.Integer("Units fined", default = 0, required = True, readonly = True)
+    units_used = fields.Integer("Units used normally", default = 0, 
+            required = True, readonly = True)
+    units_used_fine = fields.Integer("Units fined", default = 0, 
+            required = True, readonly = True)
     notes = fields.Text('Notes')
     payments = fields.One2many('jhall.h_visit_payment', 'abonement', 
             string = 'Payments')
@@ -315,13 +319,18 @@ class h_schedule_book(models.Model):
     hall_id = fields.Many2one('jhall.d_hall', 'Hall',
             ondelete='restrict', required = True)
     date_book = fields.Date('Date schedule', required = True, index = True)
+    date_time_book = fields.Datetime('Date Time schedule', 
+            required = False, index = True,
+            compute="_compute_date_time_book", store=True)
     time_begin = fields.Float('Time begin', required = True)
-    time_end = fields.Float('Time end', required = True)
+    duration = fields.Float('Duration')
+    time_end = fields.Float('Time end', required = True, 
+            compute="_compute_time_end", store=True)
     customer_id = fields.Many2one('jhall.o_customer', 'Client',
             ondelete='restrict', required = False)
     service_type = fields.Many2one('jhall.d_service_type', 'Service Type',
             ondelete='restrict', required = True)
-    trainer_id = fields.Many2one('jhall.o_trainer', 'Trainer',
+    trainer_id = fields.Many2one('jhall.d_trainer', 'Trainer',
             ondelete='restrict', required = False)
     equipment_id = fields.Many2one('jhall.h_equipment', 'Equipment',
             ondelete='restrict', required = False)
@@ -335,6 +344,23 @@ class h_schedule_book(models.Model):
         (8, 'Completed')], string = "Book state", default = 2, required = True)
     visit = fields.Many2one('jhall.h_customer_visit', 'Visit',
             ondelete='restrict', required = False)
+
+    @api.depends('time_begin', 'duration')
+    def _compute_time_end(self):        
+        for record in self:
+            if not (record.time_begin and record.duration):
+                record.time_end = record.time_begin
+            record.time_end = record.time_begin + record.duration
+
+    @api.depends('date_book','time_begin')
+    def _compute_date_time_book(self):
+        for record in self:
+            if not (record.date_book and record.time_begin):
+                record.date_time_begin = record.date_book
+                continue            
+            start = fields.Datetime.from_string(record.date_book)
+            duration = datetime.timedelta(hours=record.time_begin)
+            record.date_time_book = start + duration
 
 class h_visit_payment(models.Model):
     _name = 'jhall.h_visit_payment'

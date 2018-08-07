@@ -85,7 +85,7 @@
     <act_window id="jh_aview_schedule_booking"
         name="Schedule booking"
         res_model="jhall.h_schedule_booking"
-        view_mode="tree,form" 
+        view_mode="tree,form,calendar" 
     />
       
     <menuitem name="JumpingHall" id="jh_menu_main"/>
@@ -463,7 +463,9 @@
             <field name="date_book"/>
             <field name="service_type"/>
             <field name="time_begin" widget="float_time"/>
-            <field name="time_end" widget="float_time"/>
+            <field name="duration" widget="float_time"/>
+            <field name="time_end" widget="float_time"  
+                readonly = "1"  force_save="1"/>
             <field name="equipment_id"/>
             <field name="customer_id"/>
             <field name="trainer_id"/>
@@ -472,6 +474,22 @@
         </form>
       </field>
     </record>
+
+    <record model="ir.ui.view" id="jhall.v_c_schedule_booking">
+      <field name="name">Schedule booking</field>
+      <field name="model">jhall.h_schedule_booking</field>
+      <field name="arch" type="xml">
+        <calendar string="Bookings" date_start="date_time_book" 
+             color="equipment_id">
+          <field name="customer_id"/>
+          <field name="service_type"/>
+          <field name="trainer_id"/>
+          <field name="equipment_id"/>
+          <field name="duration"  widget="float_time"  />
+        </calendar>      
+      </field>
+    </record>
+
 
 
 
