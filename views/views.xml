@@ -441,8 +441,7 @@
       <field name="arch" type="xml">
         <tree>
           <field name="hall_id"/>
-          <field name="date_book"/>
-          <field name="time_begin" widget="float_time"/>
+          <field name="date_time_book"/>
           <field name="time_end" widget="float_time"/>
           <field name="service_type"/>
           <field name="equipment_id"/>
@@ -482,8 +481,8 @@
         <calendar string="Bookings" date_start="date_time_book" 
              color="equipment_id">
           <field name="customer_id"/>
+          <field name="trainer_id"/>          
           <field name="service_type"/>
-          <field name="trainer_id"/>
           <field name="equipment_id"/>
           <field name="duration"  widget="float_time"  />
         </calendar>      

@@ -4,6 +4,15 @@ from odoo import models, fields, api
 from odoo.exceptions import UserError, ValidationError
 import datetime
 import dateutil.parser
+import pytz
+
+def schedule_time_to_float(t):
+    return t.hour + t.minutes/60
+
+def convert_naive_datetime_to_utc(vdate, record):
+    tz_name = record._context.get('tz') or record.env.user.tz            
+    context_tz = pytz.timezone(tz_name)
+    return context_tz.localize(vdate, is_dst=False).astimezone(pytz.UTC)
 
 class d_region(models.Model):
      _name = 'jhall.d_region'
@@ -155,11 +164,11 @@ class o_customer(models.Model):
     date_last_contact = fields.Date('Date last contact')
     date_next_contact = fields.Date('Date next scheduled contact')
     abonements = fields.One2many('jhall.o_abonement',
-        'customer_id', string="Abonements")
+        'customer_id', string="Abonements", limit =20)
     visits = fields.One2many('jhall.h_customer_visit',
-        'customer_id', string="Visits")
+        'customer_id', string="Visits", limit =20)
     contacts = fields.One2many('jhall.o_customer_interraction',
-        'customer_id', string="Interractions")
+        'customer_id', string="Interractions", limit =20)
 
 class h_abonement(models.Model):
     _name = 'jhall.o_abonement'
@@ -321,7 +330,9 @@ class h_schedule_book(models.Model):
     date_book = fields.Date('Date schedule', required = True, index = True)
     date_time_book = fields.Datetime('Date Time schedule', 
             required = False, index = True,
-            compute="_compute_date_time_book", store=True)
+            compute="_compute_date_time_book", 
+            inverse="_inverse_date_time_book", 
+            store=True)
     time_begin = fields.Float('Time begin', required = True)
     duration = fields.Float('Duration')
     time_end = fields.Float('Time end', required = True, 
@@ -333,7 +344,11 @@ class h_schedule_book(models.Model):
     trainer_id = fields.Many2one('jhall.d_trainer', 'Trainer',
             ondelete='restrict', required = False)
     equipment_id = fields.Many2one('jhall.h_equipment', 'Equipment',
-            ondelete='restrict', required = False)
+            ondelete='restrict', required = False,
+            domain=
+                "[('hall_id', '=', hall_id)]"
+#, ('type_id', '=', service_type.equipment_type_id)                
+            )
     book_state = fields.Selection([
         (1, 'Request'),
         (2, 'Agree'),
@@ -358,9 +373,23 @@ class h_schedule_book(models.Model):
             if not (record.date_book and record.time_begin):
                 record.date_time_begin = record.date_book
                 continue            
-            start = fields.Datetime.from_string(record.date_book)
-            duration = datetime.timedelta(hours=record.time_begin)
-            record.date_time_book = start + duration
+            vbook_date = fields.Date.from_string(record.date_book)
+            vbook_time = (datetime.datetime.min + 
+                datetime.timedelta(hours=record.time_begin)).time()
+            vdate_time_book = datetime.datetime.combine(vbook_date, vbook_time)
+            record.date_time_book = fields.Datetime.to_string(
+                    convert_naive_datetime_to_utc(vdate_time_book, record))
+
+    def _inverse_date_time_book(self):
+        for record in self:
+            if not (record.date_time_book):
+                continue            
+            vdate_time_book = fields.Datetime.from_string(record.date_book)
+            record.duration = schedule_time_to_float(
+                datetime.datetime.time(vdate_time_book))
+            record.date_book = fields.Date.to_string(
+                datetime.datetime.date(vdate_time_book))
+
 
 class h_visit_payment(models.Model):
     _name = 'jhall.h_visit_payment'
