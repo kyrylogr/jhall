@@ -460,15 +460,16 @@
           <group>
             <field name="hall_id"/>
             <field name="date_book"/>
+            <field name="time_begin" widget="float_time"/>            
+            <field name="customer_id"/>            
             <field name="service_type"/>
-            <field name="time_begin" widget="float_time"/>
             <field name="duration" widget="float_time"/>
             <field name="time_end" widget="float_time"  
                 readonly = "1"  force_save="1"/>
             <field name="equipment_id"/>
-            <field name="customer_id"/>
             <field name="trainer_id"/>
             <field name="book_state"/>
+            <field name="equipment_type_id" visible="0"/>
           </group>
         </form>
       </field>
@@ -489,6 +490,24 @@
       </field>
     </record>
 
+
+    <record model="ir.ui.view" id="jhall.v_s_schedule_booking">
+      <field name="name">Schedule booking</field>
+      <field name="model">jhall.h_schedule_booking</field>
+      <field name="arch" type="xml">
+        <search>
+         <field name="date_book"/>
+         <field name="customer_id"/>
+         <field name="service_type"/>
+         <field name="trainer_id"/>
+         <field name="time_begin"/>         
+         <field name="equipment_id"/>
+         <field name="duration"/>
+         <field name="book_state"/>
+         <field name="equipment_type_id" readonly = "1"  force_save="1"/>
+        </search>
+      </field>
+    </record>
 
 
 

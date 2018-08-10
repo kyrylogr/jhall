@@ -7,7 +7,7 @@ import dateutil.parser
 import pytz
 
 def schedule_time_to_float(t):
-    return t.hour + t.minutes/60
+    return t.hour + t.minute/60
 
 def convert_naive_datetime_to_utc(vdate, record):
     tz_name = record._context.get('tz') or record.env.user.tz            
@@ -328,6 +328,10 @@ class h_schedule_book(models.Model):
     hall_id = fields.Many2one('jhall.d_hall', 'Hall',
             ondelete='restrict', required = True)
     date_book = fields.Date('Date schedule', required = True, index = True)
+    service_type = fields.Many2one('jhall.d_service_type', 'Service Type',
+            ondelete='restrict', required = True, auto_join = True)
+    equipment_type_id = fields.Many2one('jhall.d_equipment_type', 'Equipment Type',
+            related = "service_type.equipment_type_id")
     date_time_book = fields.Datetime('Date Time schedule', 
             required = False, index = True,
             compute="_compute_date_time_book", 
@@ -339,15 +343,11 @@ class h_schedule_book(models.Model):
             compute="_compute_time_end", store=True)
     customer_id = fields.Many2one('jhall.o_customer', 'Client',
             ondelete='restrict', required = False)
-    service_type = fields.Many2one('jhall.d_service_type', 'Service Type',
-            ondelete='restrict', required = True)
     trainer_id = fields.Many2one('jhall.d_trainer', 'Trainer',
             ondelete='restrict', required = False)
     equipment_id = fields.Many2one('jhall.h_equipment', 'Equipment',
             ondelete='restrict', required = False,
-            domain=
-                "[('hall_id', '=', hall_id)]"
-#, ('type_id', '=', service_type.equipment_type_id)                
+            domain="[('type_id', '=', equipment_type_id),('hall_id', '=', hall_id)]" 
             )
     book_state = fields.Selection([
         (1, 'Request'),

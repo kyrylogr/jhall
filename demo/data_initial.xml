@@ -145,6 +145,21 @@
         </record>
 
         <record id="jh_st10" model="jhall.d_service_type">
+            <field name="name">Аренда МТ</field>
+            <field name="short_name">АРНД МТ</field>
+            <field name="equipment_type_id" ref="jh_et_2"/>
+            <field name="category_id" ref="jh_sc_2"/>
+        </record>
+        <record id="jh_st11" model="jhall.d_service_type">
+            <field name="name">Аренда МТ з тренером</field>
+            <field name="short_name">АРТР МТ</field>
+            <field name="equipment_type_id" ref="jh_et_2"/>
+            <field name="is_coach_included">True</field>
+            <field name="category_id" ref="jh_sc_2"/>
+        </record>
+
+
+        <record id="jh_st12" model="jhall.d_service_type">
             <field name="name">Тематична група</field>
             <field name="short_name">Тематична група</field>
             <field name="num_customers">10</field>
@@ -154,7 +169,7 @@
             <field name="is_coach_included">True</field>
         </record>
 
-        <record id="jh_st11" model="jhall.d_service_type">
+        <record id="jh_st13" model="jhall.d_service_type">
             <field name="name">Зал Берест</field>
             <field name="short_name">Зал Берест</field>
             <field name="num_customers">1</field>
@@ -166,7 +181,7 @@
             <field name="category_id" ref="jh_sc_5"/>
         </record>
 
-        <record id="jh_st12" model="jhall.d_service_type">
+        <record id="jh_st14" model="jhall.d_service_type">
             <field name="name">Зал ПДН</field>
             <field name="short_name">Зал ПДН</field>
             <field name="num_customers">1</field>
@@ -177,7 +192,7 @@
             <field name="hall_id" ref="jh_hall_2"/>
             <field name="category_id" ref="jh_sc_5"/>
         </record>
-        <record id="jh_st13" model="jhall.d_service_type">
+        <record id="jh_st15" model="jhall.d_service_type">
             <field name="name">Зал ХШ</field>
             <field name="short_name">Зал ХШ</field>
             <field name="num_customers">1</field>
@@ -189,7 +204,7 @@
             <field name="category_id" ref="jh_sc_5"/>
         </record>
 
-        <record id="jh_st14" model="jhall.d_service_type">
+        <record id="jh_st16" model="jhall.d_service_type">
             <field name="name">Аренда малий зал</field>
             <field name="short_name">Аренда малого залу</field>
             <field name="num_customers">1</field>
@@ -554,7 +569,7 @@
             <field name="type_id" ref="jh_st07"/>
             <field name="date_begin">2018-06-25</field>
             <field name="date_end">2020-01-01</field>
-            <field name="price_cashs">300</field>
+            <field name="price_cash">300</field>
         </record>
         <record id="jh_sp08" model="jhall.d_service_price">
             <field name="type_id" ref="jh_st08"/>
