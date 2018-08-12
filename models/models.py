@@ -14,6 +14,15 @@ def convert_naive_datetime_to_utc(vdate, record):
     context_tz = pytz.timezone(tz_name)
     return context_tz.localize(vdate, is_dst=False).astimezone(pytz.UTC)
 
+def convert_naive_datetime_to_field(vdate, record):
+    return fields.Datetime.to_string(
+        convert_naive_datetime_to_utc(vdate,record)
+    )
+
+def float_hours_to_time(vhours):
+    return (datetime.datetime.min +
+        datetime.timedelta(hours=vhours)).time()
+
 class d_region(models.Model):
      _name = 'jhall.d_region'
      _description = 'Regions'
@@ -321,24 +330,59 @@ class h_customer_visit(models.Model):
     remind_contact = fields.Many2one('jhall.o_customer_interraction', 'Remind contact',
             ondelete='restrict', required = False)
 
+class h_calendar_test(models.Model):
+    _name = 'jhall.h_calendar_test'
+    _description = 'Calendar test'
+#   date of insert and user who added are in system fields
+    hall_id = fields.Many2one('jhall.d_hall', 'Hall',
+            ondelete='restrict', required = True)
+    service_type = fields.Many2one('jhall.d_service_type', 'Service Type',
+            ondelete='restrict', required = True, auto_join = True)
+    date_time_begin = fields.Datetime('Begins at', 
+            required = True)            
+    date_time_end = fields.Datetime('Ends at')
+    customer_id = fields.Many2one('jhall.o_customer', 'Client',
+            ondelete='restrict', required = False)
+    trainer_id = fields.Many2one('jhall.d_trainer', 'Trainer',
+            ondelete='restrict', required = False)
+
+class h_calendar_test2(models.Model):
+    _name = 'jhall.h_calendar_test2'
+    _description = 'Calendar test2'
+#   date of insert and user who added are in system fields
+    hall_id = fields.Many2one('jhall.d_hall', 'Hall',
+            ondelete='restrict', required = True)
+    service_type = fields.Many2one('jhall.d_service_type', 'Service Type',
+            ondelete='restrict', required = True, auto_join = True)
+    date_time_begin = fields.Datetime('Begins at', 
+            required = True)       
+    duration = fields.Float('Duration', default = 1)     
+    date_time_end = fields.Datetime('Ends at')
+    customer_id = fields.Many2one('jhall.o_customer', 'Client',
+            ondelete='restrict', required = False)
+    trainer_id = fields.Many2one('jhall.d_trainer', 'Trainer',
+            ondelete='restrict', required = False)
+
+
 class h_schedule_book(models.Model):
     _name = 'jhall.h_schedule_booking'
     _description = 'Schedule book'
 #   date of insert and user who added are in system fields
     hall_id = fields.Many2one('jhall.d_hall', 'Hall',
             ondelete='restrict', required = True)
-    date_book = fields.Date('Date schedule', required = True, index = True)
     service_type = fields.Many2one('jhall.d_service_type', 'Service Type',
             ondelete='restrict', required = True, auto_join = True)
     equipment_type_id = fields.Many2one('jhall.d_equipment_type', 'Equipment Type',
             related = "service_type.equipment_type_id")
-    date_time_book = fields.Datetime('Date Time schedule', 
-            required = False, index = True,
-            compute="_compute_date_time_book", 
-            inverse="_inverse_date_time_book", 
-            store=True)
-    time_begin = fields.Float('Time begin', required = True)
-    duration = fields.Float('Duration')
+    date_time_book = fields.Datetime('Date Time booking', 
+            required = False, index = True)
+    date_book = fields.Date('Date schedule', required = True, 
+            compute="_compute_date_book", 
+            inverse="_inverse_date_book")            
+    time_begin = fields.Float('Time begin', required = True,
+            compute="_compute_time_begin", 
+            inverse="_inverse_time_begin", stored = True)
+    duration = fields.Float('Duration', default = 1)
     time_end = fields.Float('Time end', required = True, 
             compute="_compute_time_end", store=True)
     customer_id = fields.Many2one('jhall.o_customer', 'Client',
@@ -367,29 +411,40 @@ class h_schedule_book(models.Model):
                 record.time_end = record.time_begin
             record.time_end = record.time_begin + record.duration
 
-    @api.depends('date_book','time_begin')
-    def _compute_date_time_book(self):
-        for record in self:
-            if not (record.date_book and record.time_begin):
-                record.date_time_begin = record.date_book
-                continue            
-            vbook_date = fields.Date.from_string(record.date_book)
-            vbook_time = (datetime.datetime.min + 
-                datetime.timedelta(hours=record.time_begin)).time()
-            vdate_time_book = datetime.datetime.combine(vbook_date, vbook_time)
-            record.date_time_book = fields.Datetime.to_string(
-                    convert_naive_datetime_to_utc(vdate_time_book, record))
-
-    def _inverse_date_time_book(self):
+    @api.depends('date_time_book')
+    def _compute_date_book(self):
         for record in self:
             if not (record.date_time_book):
-                continue            
-            vdate_time_book = fields.Datetime.from_string(record.date_book)
-            record.duration = schedule_time_to_float(
-                datetime.datetime.time(vdate_time_book))
-            record.date_book = fields.Date.to_string(
-                datetime.datetime.date(vdate_time_book))
+                continue
+            vdate_time = fields.Datetime.from_string(record.date_time_book)
+            record.date_book = fields.Date.to_string(vdate_time.date())
 
+    def _inverse_date_book(self):
+        for record in self:
+            if not (record.date_book):
+                continue            
+            vdate = fields.Date.from_string(record.date_book)                
+            vdate_time = fields.Datetime.from_string(record.date_time_book)
+            record.date_time_book = convert_naive_datetime_to_field(
+                datetime.datetime.combine(vdate, vdate_time.time()), record)
+
+    @api.depends('date_time_book')
+    def _compute_time_begin(self):
+        for record in self:
+            if not (record.date_time_book):
+                continue
+            vdate_time = fields.Datetime.from_string(record.date_time_book)
+            record.time_begin = schedule_time_to_float(
+                vdate_time.time())
+
+    def _inverse_time_begin(self):
+        for record in self:
+            if not (record.time_begin):
+                continue            
+            vdate_time = fields.Datetime.from_string(record.date_time_book)
+            vtime = float_hours_to_time(record.time_begin)
+            record.date_time_book = convert_naive_datetime_to_field(
+                datetime.datetime.combine(vdate_time.date(), vtime), record)
 
 class h_visit_payment(models.Model):
     _name = 'jhall.h_visit_payment'

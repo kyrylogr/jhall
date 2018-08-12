@@ -87,7 +87,19 @@
         res_model="jhall.h_schedule_booking"
         view_mode="tree,form,calendar" 
     />
-      
+    <act_window id="jh_aview_calendar_test"
+        name="Calendar test"
+        res_model="jhall.h_calendar_test"
+        view_mode="tree,form,calendar" 
+    />    
+
+    <act_window id="jh_aview_calendar_test2"
+        name="Calendar test2"
+        res_model="jhall.h_calendar_test2"
+        view_mode="tree,form,calendar" 
+    />    
+
+
     <menuitem name="JumpingHall" id="jh_menu_main"/>
     <menuitem name="JH Hall" id="jh_menu_hall"/>
     <menuitem name="Clients" id="jh_menu_client" 
@@ -105,9 +117,18 @@
     <menuitem name="Contact" id="jh_menu_aview_customer_interraction" 
         action="jh_aview_customer_interraction"  
         parent="jh_menu_hall"/>
-    <menuitem name="Schedule Booking" id="jh_menu_aview_customer_interraction" 
+    <menuitem name="Schedule Booking" id="jh_menu_aview_schedule_booking" 
         action="jh_aview_schedule_booking"  
         parent="jh_menu_hall"/>
+
+    <menuitem name="Calendar test" id="jh_menu_calendar_test" 
+        action="jh_aview_calendar_test"  
+        parent="jh_menu_hall"/>        
+
+    <menuitem name="Calendar test2" id="jh_menu_calendar_test2" 
+        action="jh_aview_calendar_test2"  
+        parent="jh_menu_hall"/>        
+
 
     <menuitem name="JH Dictionaries" id="jh_menu_dictionaries"/>
     <menuitem name="Regions" id="jh_menu_regions" action="jh_aview_regions" 
@@ -441,7 +462,8 @@
       <field name="arch" type="xml">
         <tree>
           <field name="hall_id"/>
-          <field name="date_time_book"/>
+          <field name="date_book"/>
+          <field name="time_begin"  widget="float_time"/>
           <field name="time_end" widget="float_time"/>
           <field name="service_type"/>
           <field name="equipment_id"/>
@@ -464,12 +486,13 @@
             <field name="customer_id"/>            
             <field name="service_type"/>
             <field name="duration" widget="float_time"/>
-            <field name="time_end" widget="float_time"  
-                readonly = "1"  force_save="1"/>
             <field name="equipment_id"/>
             <field name="trainer_id"/>
             <field name="book_state"/>
-            <field name="equipment_type_id" visible="0"/>
+            <field name="equipment_type_id" readonly = "1"  force_save="1"/>
+            <field name="date_time_book"/>
+            <field name="time_end" widget="float_time"  
+                readonly = "1"  force_save="1"/>
           </group>
         </form>
       </field>
@@ -480,7 +503,7 @@
       <field name="model">jhall.h_schedule_booking</field>
       <field name="arch" type="xml">
         <calendar string="Bookings" date_start="date_time_book" 
-             color="equipment_id">
+             color="equipment_id" date_delay="duration">
           <field name="customer_id"/>
           <field name="trainer_id"/>          
           <field name="service_type"/>
@@ -489,6 +512,66 @@
         </calendar>      
       </field>
     </record>
+
+
+    <record model="ir.ui.view" id="jhall.v_c_calendar_test">
+      <field name="name">Calendar test</field>
+      <field name="model">jhall.h_calendar_test</field>
+      <field name="arch" type="xml">
+        <calendar string="Bookings" date_start="date_time_begin" 
+             date_stop="date_time_end">
+          <field name="customer_id"/>
+          <field name="trainer_id"/>          
+          <field name="service_type"/>
+        </calendar>      
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="jhall.v_t_calendar_test">
+      <field name="name">Calendar test</field>
+      <field name="model">jhall.h_calendar_test</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="date_time_begin"/>
+          <field name="date_time_end"/>
+          <field name="hall_id"/>
+          <field name="customer_id"/>
+          <field name="trainer_id"/>          
+          <field name="service_type"/>
+        </tree>      
+      </field>
+    </record>
+
+
+    <record model="ir.ui.view" id="jhall.v_c_calendar_test2">
+      <field name="name">Calendar test</field>
+      <field name="model">jhall.h_calendar_test2</field>
+      <field name="arch" type="xml">
+        <calendar string="Bookings" date_start="date_time_begin" 
+             date_delay="duration">
+          <field name="customer_id"/>
+          <field name="trainer_id"/>          
+          <field name="service_type"/>
+        </calendar>      
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="jhall.v_t_calendar_test2">
+      <field name="name">Calendar test</field>
+      <field name="model">jhall.h_calendar_test2</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="date_time_begin"/>
+          <field name="date_time_end"/>
+          <field name="duration" widget="float_time"/>
+          <field name="hall_id"/>
+          <field name="customer_id"/>
+          <field name="trainer_id"/>          
+          <field name="service_type"/>
+        </tree>      
+      </field>
+    </record>
+
 
 
     <record model="ir.ui.view" id="jhall.v_s_schedule_booking">
@@ -504,7 +587,7 @@
          <field name="equipment_id"/>
          <field name="duration"/>
          <field name="book_state"/>
-         <field name="equipment_type_id" readonly = "1"  force_save="1"/>
+         <field name="equipment_type_id"/>
         </search>
       </field>
     </record>
