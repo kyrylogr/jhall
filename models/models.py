@@ -19,6 +19,13 @@ def convert_naive_datetime_to_field(vdate, record):
         convert_naive_datetime_to_utc(vdate,record)
     )
 
+def convert_field_to_datetime(value, record):
+    vdate = fields.Datetime.from_string(value)
+    tz_name = record._context.get('tz') or record.env.user.tz            
+    context_tz = pytz.timezone(tz_name)
+    return pytz.UTC.localize(vdate, is_dst=False).astimezone(context_tz)
+
+
 def float_hours_to_time(vhours):
     return (datetime.datetime.min +
         datetime.timedelta(hours=vhours)).time()
@@ -433,7 +440,7 @@ class h_schedule_book(models.Model):
         for record in self:
             if not (record.date_time_book):
                 continue
-            vdate_time = fields.Datetime.from_string(record.date_time_book)
+            vdate_time = convert_field_to_datetime(record.date_time_book, record)
             record.time_begin = schedule_time_to_float(
                 vdate_time.time())
 
