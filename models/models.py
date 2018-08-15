@@ -25,7 +25,6 @@ def convert_field_to_datetime(value, record):
     context_tz = pytz.timezone(tz_name)
     return pytz.UTC.localize(vdate, is_dst=False).astimezone(context_tz)
 
-
 def float_hours_to_time(vhours):
     return (datetime.datetime.min +
         datetime.timedelta(hours=vhours)).time()
@@ -411,6 +410,13 @@ class h_schedule_book(models.Model):
     visit = fields.Many2one('jhall.h_customer_visit', 'Visit',
             ondelete='restrict', required = False)
 
+    @api.depends('service_type')
+    def _change_service_type_calculate_duration(self):
+        for record in self:
+            if (not (record.service_type) or not (record.duration)):
+                continue
+            record.duration = record.service_type.default_unit_time
+
     @api.depends('time_begin', 'duration')
     def _compute_time_end(self):        
         for record in self:
@@ -430,10 +436,13 @@ class h_schedule_book(models.Model):
         for record in self:
             if not (record.date_book):
                 continue            
-            vdate = fields.Date.from_string(record.date_book)                
-            vdate_time = fields.Datetime.from_string(record.date_time_book)
+            vdate = fields.Date.from_string(record.date_book)
+            if record.time_begin:
+                vtime = float_hours_to_time(record.time_begin)
+            else:
+                vtime = fields.Datetime.from_string(record.date_time_book).time()
             record.date_time_book = convert_naive_datetime_to_field(
-                datetime.datetime.combine(vdate, vdate_time.time()), record)
+                datetime.datetime.combine(vdate, vtime), record)
 
     @api.depends('date_time_book')
     def _compute_time_begin(self):
