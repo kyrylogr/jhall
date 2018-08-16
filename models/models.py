@@ -30,82 +30,82 @@ def float_hours_to_time(vhours):
         datetime.timedelta(hours=vhours)).time()
 
 class d_region(models.Model):
-     _name = 'jhall.d_region'
-     _description = 'Regions'
-     name = fields.Char('Name', required = True)
-     short_name = fields.Char('Short Name', required = True)
-     description = fields.Text('Description', required = False)
-     is_used = fields.Boolean('Is Used?', required = True, default = True)
+    _name = 'jhall.d_region'
+    _description = 'Regions'
+    name = fields.Char('Name', required = True)
+    short_name = fields.Char('Short Name', required = True)
+    description = fields.Text('Description', required = False)
+    is_used = fields.Boolean('Is Used?', required = True, default = True)
 
 class d_hall(models.Model):
-     _name = 'jhall.d_hall'
-     _description = 'Hall location'
-     name = fields.Char('Name', required = True)
-     short_name = fields.Char('Short Name', required = True)
-     description = fields.Text('Description', required = False)
-     is_used = fields.Boolean('Is Used?', required = True, default = True)
-     region_id = fields.Many2one('jhall.d_region', 'Region',
+    _name = 'jhall.d_hall'
+    _description = 'Hall location'
+    name = fields.Char('Name', required = True)
+    short_name = fields.Char('Short Name', required = True)
+    description = fields.Text('Description', required = False)
+    is_used = fields.Boolean('Is Used?', required = True, default = True)
+    region_id = fields.Many2one('jhall.d_region', 'Region',
             ondelete='restrict')
 
 class d_spot(models.Model): 
-     _name = 'jhall.d_spot'
-     _description = 'Space in hall'
-     name = fields.Char('Name', required = True)
-     short_name = fields.Char('Short Name', required = True)
-     description = fields.Text('Description', required = False)
-     is_used = fields.Boolean('Is Used?', required = True, default = True)
-     hall_id = fields.Many2one('jhall.d_hall', 'Hall',
-            ondelete='restrict', required = True)
+    _name = 'jhall.d_spot'
+    _description = 'Space in hall'
+    name = fields.Char('Name', required = True)
+    short_name = fields.Char('Short Name', required = True)
+    description = fields.Text('Description', required = False)
+    is_used = fields.Boolean('Is Used?', required = True, default = True)
+    hall_id = fields.Many2one('jhall.d_hall', 'Hall',
+           ondelete='restrict', required = True)
 
 class d_equipment_type(models.Model):
-     _name = 'jhall.d_equipment_type'
-     _description = 'Equipment Type'
-     name = fields.Char('Name', required = True)
-     short_name = fields.Char('Short Name', required = True)
-     is_used = fields.Boolean('Is Used?', required = True, default = True)
+    _name = 'jhall.d_equipment_type'
+    _description = 'Equipment Type'
+    name = fields.Char('Name', required = True)
+    short_name = fields.Char('Short Name', required = True)
+    is_used = fields.Boolean('Is Used?', required = True, default = True)
 
 class d_equipment(models.Model):
-     _name = 'jhall.h_equipment'
-     _description = 'Equipment'
-     type_id = fields.Many2one('jhall.d_equipment_type', 'Type',
-            ondelete='restrict', required = True)
-     hall_id = fields.Many2one('jhall.d_hall', 'Hall',
-            ondelete='restrict', required = True)
-     spot_id = fields.Many2one('jhall.d_spot', 'Spot',
-            ondelete='restrict')
-     name = fields.Char('Name', required = True)
-     no = fields.Char('Number', required = False)
-     description = fields.Text('Description')
-     is_used = fields.Boolean('Is Used?', required = True, default = True)
+    _name = 'jhall.h_equipment'
+    _description = 'Equipment'
+    type_id = fields.Many2one('jhall.d_equipment_type', 'Type',
+           ondelete='restrict', required = True)
+    hall_id = fields.Many2one('jhall.d_hall', 'Hall',
+           ondelete='restrict', required = True)
+    spot_id = fields.Many2one('jhall.d_spot', 'Spot',
+           ondelete='restrict')
+    name = fields.Char('Name', required = True)
+    no = fields.Char('Number', required = False)
+    description = fields.Text('Description')
+    is_used = fields.Boolean('Is Used?', required = True, default = True)
 
 class d_service_category(models.Model):
-     _name = 'jhall.d_service_category'
-     _description = 'Service Category'
-     name = fields.Char('Name', required = True)
-     short_name = fields.Char('Short Name', required = True)
-     description = fields.Text('Description', required = False)
-     is_used = fields.Boolean('Is Used?', required = True, default = True)
+    _name = 'jhall.d_service_category'
+    _description = 'Service Category'
+    name = fields.Char('Name', required = True)
+    short_name = fields.Char('Short Name', required = True)
+    description = fields.Text('Description', required = False)
+    is_used = fields.Boolean('Is Used?', required = True, default = True)
 
 class d_service_type(models.Model):
-     _name = 'jhall.d_service_type'
-     _description = 'Service Type'
-     equipment_type_id = fields.Many2one('jhall.d_equipment_type', 'Equipment Type',
-            ondelete='restrict', required = False)
-     category_id = fields.Many2one('jhall.d_service_category', 'Category',
-            ondelete='restrict', required = False)
-     name = fields.Char('Name', required = True)
-     short_name = fields.Char('Short Name', required = True)
-     description = fields.Text('Description', required = False)
-     is_used = fields.Boolean('Is Used?', required = True, default = True)
-     is_coach_included = fields.Boolean('Is trainer included?', required = True, default = False)
-     num_customers = fields.Integer('Maximum number of customers', required = True, default = 1)
-     default_unit_time = fields.Integer('Default time (pay unit)', required = True, default = 60)
-     min_time = fields.Integer('Minimum duration (minutes)', required = True, default = 60)
-     max_time = fields.Integer('Maximum duration (minutes)')
-     time_step = fields.Integer('Step duration (minutes)', required = True, default = 30)
-     hall_reserve = fields.Boolean('Complete hall reservation', required = True, default = False)
-     hall_id = fields.Many2one('jhall.d_hall', 'hall',
-            ondelete='restrict', required = False)
+    _name = 'jhall.d_service_type'
+    _description = 'Service Type'
+    equipment_type_id = fields.Many2one('jhall.d_equipment_type', 'Equipment Type',
+           ondelete='restrict', required = False)
+    category_id = fields.Many2one('jhall.d_service_category', 'Category',
+           ondelete='restrict', required = False)
+    name = fields.Char('Name', required = True)
+    short_name = fields.Char('Short Name', required = True)
+    description = fields.Text('Description', required = False)
+    is_used = fields.Boolean('Is Used?', required = True, default = True)
+    is_coach_included = fields.Boolean('Is trainer included?', required = True, default = False)
+    num_customers = fields.Integer('Maximum number of customers', required = True, default = 1)
+    default_unit_time = fields.Integer('Default time (pay unit)', required = True, default = 60)
+    min_time = fields.Integer('Minimum duration (minutes)', required = True, default = 60)
+    max_time = fields.Integer('Maximum duration (minutes)')
+    time_step = fields.Integer('Step duration (minutes)', required = True, default = 30)
+    hall_reserve = fields.Boolean('Complete hall reservation', required = True, default = False)
+    hall_id = fields.Many2one('jhall.d_hall', 'hall',
+           ondelete='restrict', required = False)
 
 class d_service_price(models.Model):
     _name = 'jhall.d_service_price'
@@ -127,15 +127,15 @@ class d_trainer(models.Model):
     is_used = fields.Boolean('Is Used?', required = True, default = True)
 
 class d_abonement_type(models.Model):
-     _name = 'jhall.d_abonement_type'
-     _description = 'Abonement Type'
-     name = fields.Char('Name', required = True)
-     short_name = fields.Char('Short Name', required = True)
-     description = fields.Text('Description', required = False)
-     is_used = fields.Boolean('Is Used?', required = True, default = True)
-     is_coach_included = fields.Boolean('Is trainer included?', required = True, default = True)
-     n_units = fields.Integer('Units', required = True, default = 8)
-     days_duration = fields.Integer('Duration in days', required = True, default = 45)
+    _name = 'jhall.d_abonement_type'
+    _description = 'Abonement Type'
+    name = fields.Char('Name', required = True)
+    short_name = fields.Char('Short Name', required = True)
+    description = fields.Text('Description', required = False)
+    is_used = fields.Boolean('Is Used?', required = True, default = True)
+    is_coach_included = fields.Boolean('Is trainer included?', required = True, default = True)
+    n_units = fields.Integer('Units', required = True, default = 8)
+    days_duration = fields.Integer('Duration in days', required = True, default = 45)
 
 class d_abonement_price(models.Model):
     _name = 'jhall.d_abonement_price'
@@ -409,6 +409,26 @@ class h_schedule_book(models.Model):
         (8, 'Completed')], string = "Book state", default = 2, required = True)
     visit = fields.Many2one('jhall.h_customer_visit', 'Visit',
             ondelete='restrict', required = False)
+
+    @api.constrains('duration')
+    def _duration_within_of_service_type(self):
+        for record in self:
+            if (not (record.service_type) or not (record.duration)):
+                continue
+            service_type = record.service_type
+            duration_minutes = record.duration * 60
+            if (service_type.max_time != 0 and duration_minutes > service_type.max_time \
+                    or duration_minutes < service_type.min_time):
+                raise ValidationError("Booking time out of service time [%d, %d]" % 
+                    (service_type.min_time, service_type.max_time))
+            if (service_type.time_step>0 and service_type.min_time>0):
+                diff_min_time = duration_minutes - service_type.min_time
+                diff_units = diff_min_time  / service_type.time_step
+                diff_remainder =  diff_min_time - int(diff_units) * service_type.time_step
+                if (diff_remainder > 0.01):
+                    raise ValidationError("Step time is not respected (%d minutes)" % service_type.time_step)
+
+#           todo: add check for time_step
 
     @api.depends('service_type')
     def _change_service_type_calculate_duration(self):
