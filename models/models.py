@@ -389,6 +389,7 @@ class h_schedule_book(models.Model):
             compute="_compute_time_begin", 
             inverse="_inverse_time_begin", stored = True)
     duration = fields.Float('Duration', default = 1)
+    test_field = fields.Float('Test field', default = 1)    
     time_end = fields.Float('Time end', required = True, 
             compute="_compute_time_end", store=True)
     customer_id = fields.Many2one('jhall.o_customer', 'Client',
@@ -430,12 +431,20 @@ class h_schedule_book(models.Model):
 
 #           todo: add check for time_step
 
-    @api.depends('service_type')
+    @api.onchange('service_type')
     def _change_service_type_calculate_duration(self):
-        for record in self:
-            if (not (record.service_type) or not (record.duration)):
-                continue
-            record.duration = record.service_type.default_unit_time
+        record = self
+        service_type = record.service_type
+        if (service_type and service_type.default_unit_time>0):
+            target_duration = service_type.default_unit_time / 60
+            if (not  record.duration \
+                or service_type.min_time > 0 \
+                and service_type.min_time> record.duration):
+                    record.duration = target_duration
+        if (service_type and record.equipment_id \
+            and service_type.equipment_type_id != record.equipment_id.type_id):
+                record.equipment_id = None
+
 
     @api.depends('time_begin', 'duration')
     def _compute_time_end(self):        
