@@ -160,7 +160,9 @@ class o_customer(models.Model):
     _name = 'jhall.o_customer'
     _description = 'Client'
     _inherits = {'res.partner': "partner_id"}
-    partner_id = fields.Many2one('res.partner',ondelete='restrict',required=True)
+    partner_id = fields.Many2one('res.partner',ondelete='restrict',required=True, 
+        auto_join=True)
+    mobile = fields.Char('mobile phone', related = 'partner_id.mobile')
     date_register = fields.Date('Date of birth', required = False)
     date_birth = fields.Date('Date register', required = False)
     prefered_communication = fields.Selection([
@@ -352,8 +354,8 @@ class h_schedule_book(models.Model):
     _order = 'date_time_book, hall_id, equipment_id'    
 #   date of insert and user who added are in system fields
     hall_id = fields.Many2one('jhall.d_hall', 'Hall',
-            ondelete='restrict', required = True,
-            default=lambda self: self.env.context.get('hall_id', False)
+            ondelete='restrict', required = True
+#            ,  default=lambda self: self.env.context.get('hall_id', False)
             )
     service_type = fields.Many2one('jhall.d_service_type', 'Service Type',
             ondelete='restrict', required = True, auto_join = True)
@@ -373,6 +375,7 @@ class h_schedule_book(models.Model):
             compute="_compute_time_end", store=True)
     customer_id = fields.Many2one('jhall.o_customer', 'Client',
             ondelete='restrict', required = False)
+    customer_mobile = fields.Char('mobile phone', related = 'customer_id.mobile')
     trainer_id = fields.Many2one('jhall.d_trainer', 'Trainer',
             ondelete='restrict', required = False)
     equipment_id = fields.Many2one('jhall.h_equipment', 'Equipment',
@@ -389,6 +392,7 @@ class h_schedule_book(models.Model):
         (8, 'Completed')], string = "Book state", default = 2, required = True)
     visit = fields.Many2one('jhall.h_customer_visit', 'Visit',
             ondelete='restrict', required = False)
+    notes = fields.Text('Notes')
 #    _defaults = {'hall_id' : context.get('hall_id', False), }        
 
 

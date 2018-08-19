@@ -499,6 +499,7 @@
           <field name="customer_id"/>
           <field name="trainer_id"/>
           <field name="book_state"/>
+          <field name="customer_mobile"/>
         </tree>
       </field>
     </record>
@@ -520,9 +521,10 @@
             <field name="book_state"/>
             <field name="equipment_type_id" attrs="{ 'invisible': True }"
                    readonly = "1"  force_save="1"/>
-            <field name="date_time_book"  />
+            <field name="date_time_book"  attrs="{ 'invisible': True }" />
             <field name="time_end" widget="float_time"  
                 readonly = "1"  force_save="1"/>
+            <field name="customer_mobile" readonly="1"/>
           </group>
         </form>
       </field>
@@ -533,7 +535,7 @@
       <field name="model">jhall.h_schedule_booking</field>
       <field name="arch" type="xml">
         <calendar string="Bookings" date_start="date_time_book" 
-             color="equipment_id" date_delay="duration">
+             color="equipment_id" date_delay="duration" quick_add="0">
           <field name="customer_id"/>
           <field name="trainer_id"/>          
           <field name="service_type"/>
