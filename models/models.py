@@ -361,6 +361,8 @@ class h_schedule_book(models.Model):
             ondelete='restrict', required = True, auto_join = True)
     equipment_type_id = fields.Many2one('jhall.d_equipment_type', 'Equipment Type',
             related = "service_type.equipment_type_id")
+    is_coach_included = fields.Boolean('Need coach', 
+            related = "service_type.is_coach_included")
     date_time_book = fields.Datetime('Date Time booking', 
             required = False, index = True)
     date_book = fields.Date('Date schedule', required = True, 
