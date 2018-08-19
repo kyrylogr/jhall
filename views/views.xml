@@ -87,21 +87,48 @@
         res_model="jhall.h_schedule_booking"
         view_mode="tree,form,calendar" 
     />
-    <act_window id="jh_aview_calendar_test"
-        name="Calendar test"
-        res_model="jhall.h_calendar_test"
+
+    <act_window id="jh_aview_schedule_booking_1"
+        name="Berest Schedule"
+        res_model="jhall.h_schedule_booking"
         view_mode="tree,form,calendar" 
+        context="{ 'default_hall_id': 1 }"
+        domain="[('hall_id','=', 1)]"
+    />
+
+    <act_window id="jh_aview_schedule_booking_2"
+        name="PDN Schedule"
+        res_model="jhall.h_schedule_booking"
+        view_mode="tree,form,calendar" 
+        context="{ 'default_hall_id': 2 }"
+        domain="[('hall_id','=', 2)]"
     />    
 
-    <act_window id="jh_aview_calendar_test2"
-        name="Calendar test2"
-        res_model="jhall.h_calendar_test2"
+    <act_window id="jh_aview_schedule_booking_3"
+        name="HH Schedule"
+        res_model="jhall.h_schedule_booking"
         view_mode="tree,form,calendar" 
+        context="{ 'default_hall_id': 3 }"
+        domain="[('hall_id','=', 3)]"
     />    
 
+    <act_window id="jh_dialog_user_parameters"
+        name="User parameters"
+        res_model="jhall.user_params"
+        view_mode="form" 
+        target="new"
+    />
 
     <menuitem name="JumpingHall" id="jh_menu_main"/>
     <menuitem name="JH Hall" id="jh_menu_hall"/>
+
+<!--
+    <menuitem id="menu_dialog_user_parameters"
+      parent="jh_menu_hall"
+      action="jh_dialog_user_parameters"
+    />
+-->    
+
     <menuitem name="Clients" id="jh_menu_client" 
         action="jh_aview_client"  
         parent="jh_menu_hall"/>
@@ -120,15 +147,17 @@
     <menuitem name="Schedule Booking" id="jh_menu_aview_schedule_booking" 
         action="jh_aview_schedule_booking"  
         parent="jh_menu_hall"/>
+    <menuitem name="Schedule Berest" id="jh_menu_aview_schedule_booking_1" 
+        action="jh_aview_schedule_booking_1"  
+        parent="jh_menu_hall"/>
 
-    <menuitem name="Calendar test" id="jh_menu_calendar_test" 
-        action="jh_aview_calendar_test"  
-        parent="jh_menu_hall"/>        
+    <menuitem name="Schedule PDN" id="jh_menu_aview_schedule_booking_2" 
+        action="jh_aview_schedule_booking_2"  
+        parent="jh_menu_hall"/>
 
-    <menuitem name="Calendar test2" id="jh_menu_calendar_test2" 
-        action="jh_aview_calendar_test2"  
-        parent="jh_menu_hall"/>        
-
+    <menuitem name="Schedule HH" id="jh_menu_aview_schedule_booking_3" 
+        action="jh_aview_schedule_booking_3"  
+        parent="jh_menu_hall"/>
 
     <menuitem name="JH Dictionaries" id="jh_menu_dictionaries"/>
     <menuitem name="Regions" id="jh_menu_regions" action="jh_aview_regions" 
@@ -489,8 +518,9 @@
             <field name="equipment_id"/>
             <field name="trainer_id"/>
             <field name="book_state"/>
-            <field name="equipment_type_id" readonly = "1"  force_save="1"/>
-            <field name="date_time_book"/>
+            <field name="equipment_type_id" attrs="{ 'invisible': True }"
+                   readonly = "1"  force_save="1"/>
+            <field name="date_time_book" attrs="{ 'invisible': True }" />
             <field name="time_end" widget="float_time"  
                 readonly = "1"  force_save="1"/>
           </group>
@@ -514,66 +544,6 @@
     </record>
 
 
-    <record model="ir.ui.view" id="jhall.v_c_calendar_test">
-      <field name="name">Calendar test</field>
-      <field name="model">jhall.h_calendar_test</field>
-      <field name="arch" type="xml">
-        <calendar string="Bookings" date_start="date_time_begin" 
-             date_stop="date_time_end">
-          <field name="customer_id"/>
-          <field name="trainer_id"/>          
-          <field name="service_type"/>
-        </calendar>      
-      </field>
-    </record>
-
-    <record model="ir.ui.view" id="jhall.v_t_calendar_test">
-      <field name="name">Calendar test</field>
-      <field name="model">jhall.h_calendar_test</field>
-      <field name="arch" type="xml">
-        <tree>
-          <field name="date_time_begin"/>
-          <field name="date_time_end"/>
-          <field name="hall_id"/>
-          <field name="customer_id"/>
-          <field name="trainer_id"/>          
-          <field name="service_type"/>
-        </tree>      
-      </field>
-    </record>
-
-
-    <record model="ir.ui.view" id="jhall.v_c_calendar_test2">
-      <field name="name">Calendar test</field>
-      <field name="model">jhall.h_calendar_test2</field>
-      <field name="arch" type="xml">
-        <calendar string="Bookings" date_start="date_time_begin" 
-             date_delay="duration">
-          <field name="customer_id"/>
-          <field name="trainer_id"/>          
-          <field name="service_type"/>
-        </calendar>      
-      </field>
-    </record>
-
-    <record model="ir.ui.view" id="jhall.v_t_calendar_test2">
-      <field name="name">Calendar test</field>
-      <field name="model">jhall.h_calendar_test2</field>
-      <field name="arch" type="xml">
-        <tree>
-          <field name="date_time_begin"/>
-          <field name="date_time_end"/>
-          <field name="duration" widget="float_time"/>
-          <field name="hall_id"/>
-          <field name="customer_id"/>
-          <field name="trainer_id"/>          
-          <field name="service_type"/>
-        </tree>      
-      </field>
-    </record>
-
-
-
     <record model="ir.ui.view" id="jhall.v_s_schedule_booking">
       <field name="name">Schedule booking</field>
       <field name="model">jhall.h_schedule_booking</field>
@@ -592,6 +562,24 @@
       </field>
     </record>
 
+
+    <record id='jhall_userparameters' model='ir.ui.view'>
+    <field name='name'>User parameters</field>
+    <field name='model'>jhall.user_params</field>
+    <field name='arch' type='xml'>
+    <form string="Parameters">
+      <group>
+        <field name='hall_id'/>
+      </group>
+      <footer>
+        <button name='set_param_hall_id' string='OK'
+            class='btn-primary' type='object'/>
+        or
+        <button string='Cancel' class='btn-default' special='cancel'/>
+      </footer>
+    </form>
+    </field>
+    </record>
 
 
 <!--  <menuitem name="Service Type" id="jh_menu_service_type" 

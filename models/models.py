@@ -57,6 +57,16 @@ class d_spot(models.Model):
     hall_id = fields.Many2one('jhall.d_hall', 'Hall',
            ondelete='restrict', required = True)
 
+class p_user_params(models.TransientModel):
+    _name = 'jhall.user_params'
+    hall_id = fields.Many2one('jhall.d_hall', 'Hall')
+    @api.multi
+    def set_param_hall_id(self):
+        for wizard in self:
+#            self.env.context.update('hall_id', wizard.hall_id)
+#            self._context.update('hall_id', wizard.hall_id)
+            self.with_context( {'hall_id' : wizard.hall_id} )
+
 class d_equipment_type(models.Model):
     _name = 'jhall.d_equipment_type'
     _description = 'Equipment Type'
@@ -336,46 +346,15 @@ class h_customer_visit(models.Model):
     remind_contact = fields.Many2one('jhall.o_customer_interraction', 'Remind contact',
             ondelete='restrict', required = False)
 
-class h_calendar_test(models.Model):
-    _name = 'jhall.h_calendar_test'
-    _description = 'Calendar test'
-#   date of insert and user who added are in system fields
-    hall_id = fields.Many2one('jhall.d_hall', 'Hall',
-            ondelete='restrict', required = True)
-    service_type = fields.Many2one('jhall.d_service_type', 'Service Type',
-            ondelete='restrict', required = True, auto_join = True)
-    date_time_begin = fields.Datetime('Begins at', 
-            required = True)            
-    date_time_end = fields.Datetime('Ends at')
-    customer_id = fields.Many2one('jhall.o_customer', 'Client',
-            ondelete='restrict', required = False)
-    trainer_id = fields.Many2one('jhall.d_trainer', 'Trainer',
-            ondelete='restrict', required = False)
-
-class h_calendar_test2(models.Model):
-    _name = 'jhall.h_calendar_test2'
-    _description = 'Calendar test2'
-#   date of insert and user who added are in system fields
-    hall_id = fields.Many2one('jhall.d_hall', 'Hall',
-            ondelete='restrict', required = True)
-    service_type = fields.Many2one('jhall.d_service_type', 'Service Type',
-            ondelete='restrict', required = True, auto_join = True)
-    date_time_begin = fields.Datetime('Begins at', 
-            required = True)       
-    duration = fields.Float('Duration', default = 1)     
-    date_time_end = fields.Datetime('Ends at')
-    customer_id = fields.Many2one('jhall.o_customer', 'Client',
-            ondelete='restrict', required = False)
-    trainer_id = fields.Many2one('jhall.d_trainer', 'Trainer',
-            ondelete='restrict', required = False)
-
-
 class h_schedule_book(models.Model):
     _name = 'jhall.h_schedule_booking'
     _description = 'Schedule book'
+    _order = 'date_time_book, hall_id, equipment_id'    
 #   date of insert and user who added are in system fields
     hall_id = fields.Many2one('jhall.d_hall', 'Hall',
-            ondelete='restrict', required = True)
+            ondelete='restrict', required = True,
+            default=lambda self: self.env.context.get('hall_id', False)
+            )
     service_type = fields.Many2one('jhall.d_service_type', 'Service Type',
             ondelete='restrict', required = True, auto_join = True)
     equipment_type_id = fields.Many2one('jhall.d_equipment_type', 'Equipment Type',
@@ -410,6 +389,8 @@ class h_schedule_book(models.Model):
         (8, 'Completed')], string = "Book state", default = 2, required = True)
     visit = fields.Many2one('jhall.h_customer_visit', 'Visit',
             ondelete='restrict', required = False)
+#    _defaults = {'hall_id' : context.get('hall_id', False), }        
+
 
     @api.constrains('duration')
     def _duration_within_of_service_type(self):
