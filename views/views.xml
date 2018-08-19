@@ -520,7 +520,7 @@
             <field name="book_state"/>
             <field name="equipment_type_id" attrs="{ 'invisible': True }"
                    readonly = "1"  force_save="1"/>
-            <field name="date_time_book" attrs="{ 'invisible': True }" />
+            <field name="date_time_book"  />
             <field name="time_end" widget="float_time"  
                 readonly = "1"  force_save="1"/>
           </group>
@@ -549,15 +549,27 @@
       <field name="model">jhall.h_schedule_booking</field>
       <field name="arch" type="xml">
         <search>
-         <field name="date_book"/>
-         <field name="customer_id"/>
-         <field name="service_type"/>
-         <field name="trainer_id"/>
-         <field name="time_begin"/>         
-         <field name="equipment_id"/>
-         <field name="duration"/>
-         <field name="book_state"/>
-         <field name="equipment_type_id"/>
+          <field name="date_book"/>
+          <field name="customer_id"/>
+          <field name="service_type"/>
+          <field name="trainer_id"/>
+          <field name="time_begin"/>         
+          <field name="equipment_id"/>
+          <field name="duration"/>
+          <field name="book_state"/>
+          <field name="equipment_type_id"/>
+          <filter name="today" string="today"
+            domain="[('date_book', '=', datetime.datetime.now().strftime('%Y-%m-%d 00:00:00')) ] "/>
+          <filter name="from today" string="from today"
+            domain="[('date_book', '&gt;=', datetime.datetime.now().strftime('%Y-%m-%d 00:00:00')) ] "/>
+          <filter name="future week" string="future week"
+            domain="[('date_book', '&gt;', datetime.datetime.now().strftime('%Y-%m-%d 00:00:00')), ('date_book', '&lt;=', (datetime.datetime.now() + datetime.timedelta(days =7)).strftime('%Y-%m-%d 00:00:00'))]"/>
+          <filter name="last week" string="last week"
+            domain="[('date_book', '&lt;', datetime.datetime.now().strftime('%Y-%m-%d 00:00:00')), ('date_book', '&gt;=', (datetime.datetime.now() + datetime.timedelta(days =-7)).strftime('%Y-%m-%d 00:00:00'))]"/>
+          <filter name="future month" string="future month"
+            domain="[('date_book', '&gt;', datetime.datetime.now().strftime('%Y-%m-%d 00:00:00')), ('date_book', '&lt;=', (datetime.datetime.now() + datetime.timedelta(days =30)).strftime('%Y-%m-%d 00:00:00'))]"/>
+          <filter name="last month" string="last month"
+            domain="[('date_book', '&lt;', datetime.datetime.now().strftime('%Y-%m-%d 00:00:00')), ('date_book', '&gt;=', (datetime.datetime.now() + datetime.timedelta(days =-30)).strftime('%Y-%m-%d 00:00:00'))]"/>
         </search>
       </field>
     </record>

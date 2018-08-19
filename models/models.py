@@ -363,10 +363,10 @@ class h_schedule_book(models.Model):
             required = False, index = True)
     date_book = fields.Date('Date schedule', required = True, 
             compute="_compute_date_book", 
-            inverse="_inverse_date_book")            
+            inverse="_inverse_date_book", store = True)
     time_begin = fields.Float('Time begin', required = True,
             compute="_compute_time_begin", 
-            inverse="_inverse_time_begin", stored = True)
+            inverse="_inverse_time_begin", store = True)
     duration = fields.Float('Duration', default = 1)
     test_field = fields.Float('Test field', default = 1)    
     time_end = fields.Float('Time end', required = True, 
@@ -466,11 +466,15 @@ class h_schedule_book(models.Model):
     def _inverse_time_begin(self):
         for record in self:
             if not (record.time_begin):
-                continue            
-            vdate_time = fields.Datetime.from_string(record.date_time_book)
-            vtime = float_hours_to_time(record.time_begin)
+                continue
+            vtime = float_hours_to_time(record.time_begin)                
+            if record.date_book:
+                vdate = fields.Date.from_string(record.date_book)                
+            else:
+                vdate = fields.Datetime.from_string(record.date_time_book).date()
+                
             record.date_time_book = convert_naive_datetime_to_field(
-                datetime.datetime.combine(vdate_time.date(), vtime), record)
+                datetime.datetime.combine(vdate, vtime), record)
 
 class h_visit_payment(models.Model):
     _name = 'jhall.h_visit_payment'
