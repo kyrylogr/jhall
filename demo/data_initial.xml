@@ -158,7 +158,6 @@
             <field name="category_id" ref="jh_sc_2"/>
         </record>
 
-
         <record id="jh_st12" model="jhall.d_service_type">
             <field name="name">Тематична група</field>
             <field name="short_name">Тематична група</field>
@@ -589,29 +588,43 @@
             <field name="type_id" ref="jh_st10"/>
             <field name="date_begin">2018-06-25</field>
             <field name="date_end">2020-01-01</field>
-            <field name="price_cash">300</field>
-            <field name="price_units">2</field>
+            <field name="price_cash">400</field>
+            <field name="price_units">3</field>
         </record>
         <record id="jh_sp11" model="jhall.d_service_price">
-            <field name="type_id" ref="jh_st07"/>
+            <field name="type_id" ref="jh_st11"/>
             <field name="date_begin">2018-06-25</field>
             <field name="date_end">2020-01-01</field>
-            <field name="price_cash">1200</field>
+            <field name="price_cash">500</field>
+            <field name="price_units">4</field>            
         </record>
         <record id="jh_sp12" model="jhall.d_service_price">
             <field name="type_id" ref="jh_st12"/>
             <field name="date_begin">2018-06-25</field>
             <field name="date_end">2020-01-01</field>
-            <field name="price_cash">1200</field>
+            <field name="price_cash">200</field>
+            <field name="price_units">1</field>
         </record>
         <record id="jh_sp13" model="jhall.d_service_price">
             <field name="type_id" ref="jh_st13"/>
             <field name="date_begin">2018-06-25</field>
             <field name="date_end">2020-01-01</field>
-            <field name="price_cash">1300</field>
+            <field name="price_cash">1200</field>
         </record>
         <record id="jh_sp14" model="jhall.d_service_price">
             <field name="type_id" ref="jh_st14"/>
+            <field name="date_begin">2018-06-25</field>
+            <field name="date_end">2020-01-01</field>
+            <field name="price_cash">1200</field>
+        </record>
+        <record id="jh_sp15" model="jhall.d_service_price">
+            <field name="type_id" ref="jh_st15"/>
+            <field name="date_begin">2018-06-25</field>
+            <field name="date_end">2020-01-01</field>
+            <field name="price_cash">1300</field>
+        </record>
+        <record id="jh_sp16" model="jhall.d_service_price">
+            <field name="type_id" ref="jh_st16"/>
             <field name="date_begin">2018-06-25</field>
             <field name="date_end">2020-01-01</field>
             <field name="price_cash">100</field>

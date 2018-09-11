@@ -322,14 +322,15 @@ class h_customer_visit(models.Model):
     time_begin = fields.Float('Time begin', required = True)
     time_end = fields.Float('Time end', required = True)
     state = fields.Selection([
-        (1, 'Request'),
-        (2, 'Agree'),
-        (3, 'Cancel'),
-        (4, 'Reschedule'),
-        (5, 'Confirm'),
-        (6, 'Cancel with fine'),
-        (7, 'No client'),
-        (8, 'Completed')], string = "State", default = 2, required = True)
+        ('request', 'Request'),
+        ('cancel', 'Cancel'),        
+        ('agree',  'Agree'),
+        ('reschedule', 'Reschedule'),
+        ('confirm', 'Confirm'),
+        ('cancel_fine', 'Cancel with fine'),
+        ('no_show', 'No show'),
+        ('complete', 'Completed')], 
+        string = "State", default = 2, required = True)
     hall_id = fields.Many2one('jhall.d_hall', 'Hall',
             ondelete='restrict', required = True)
     customer_id = fields.Many2one('jhall.o_customer', 'Client',
@@ -384,14 +385,14 @@ class h_schedule_book(models.Model):
             ondelete='restrict', required = False,
             domain="[('type_id', '=', equipment_type_id),('hall_id', '=', hall_id)]" 
             )
-    book_state = fields.Selection([
-        (1, 'Request'),
-        (2, 'Agree'),
-        (3, 'Cancel'),
-        (5, 'Confirm'),
-        (6, 'Cancel with fine'),
-        (7, 'No client'),
-        (8, 'Completed')], string = "Book state", default = 2, required = True)
+    state = fields.Selection([
+        ('request', 'Request'),
+        ('cancel', 'Cancel'),        
+        ('agree',  'Agree'),
+        ('confirm', 'Confirm'),
+        ('cancel_fine', 'Cancel with fine'),
+        ('no_show', 'No client'),
+        ('complete', 'Completed')], string = "Book state", default ='agree', required = True)
     visit = fields.Many2one('jhall.h_customer_visit', 'Visit',
             ondelete='restrict', required = False)
     notes = fields.Text('Notes')
@@ -453,10 +454,11 @@ class h_schedule_book(models.Model):
             if not (record.date_book):
                 continue            
             vdate = fields.Date.from_string(record.date_book)
-            if record.time_begin:
-                vtime = float_hours_to_time(record.time_begin)
+            if record.date_time_book:
+                vtime = fields.Datetime.from_string(record.date_time_book).time()                
             else:
-                vtime = fields.Datetime.from_string(record.date_time_book).time()
+                vtime = float_hours_to_time(record.time_begin)
+                
             record.date_time_book = convert_naive_datetime_to_field(
                 datetime.datetime.combine(vdate, vtime), record)
 

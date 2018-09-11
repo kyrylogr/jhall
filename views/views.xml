@@ -181,7 +181,7 @@
     <menuitem name="Abonement Type" id="jh_menu_abonement_type" 
         action="jh_aview_abonement_type"  
         parent="jh_menu_dictionaries"/>
-    <menuitem name="Serivce Price" id="jh_menu_service_price" 
+    <menuitem name="Service Price" id="jh_menu_service_price" 
         action="jh_aview_service_price"  
         parent="jh_menu_dictionaries"/>
 
@@ -498,7 +498,7 @@
           <field name="equipment_id"/>
           <field name="customer_id"/>
           <field name="trainer_id"/>
-          <field name="book_state"/>
+          <field name="state"/>
           <field name="customer_mobile"/>
         </tree>
       </field>
@@ -518,7 +518,7 @@
             <field name="duration" widget="float_time"/>
             <field name="equipment_id"/>
             <field name="trainer_id"/>
-            <field name="book_state"/>
+            <field name="state"/>
             <field name="equipment_type_id" attrs="{ 'invisible': True }"
                    readonly = "1"  force_save="1"/>
             <field name="date_time_book"  attrs="{ 'invisible': True }" />
@@ -540,7 +540,7 @@
           <field name="trainer_id"/>          
           <field name="service_type"/>
           <field name="equipment_id"/>
-          <field name="duration"  widget="float_time"  />
+          <field name="state"/>
         </calendar>      
       </field>
     </record>
@@ -558,7 +558,7 @@
           <field name="time_begin"/>         
           <field name="equipment_id"/>
           <field name="duration"/>
-          <field name="book_state"/>
+          <field name="state"/>
           <field name="equipment_type_id"/>
           <group name="dates">
             <filter name="today" string="today"
@@ -575,9 +575,20 @@
               domain="[('date_book', '&lt;', datetime.datetime.now().strftime('%Y-%m-%d 00:00:00')), ('date_book', '&gt;=', (datetime.datetime.now() + datetime.timedelta(days =-30)).strftime('%Y-%m-%d 00:00:00'))]"/>
           </group>
           <separator/>
-          <group name="other">
+          <group name="trainer">
             <filter name="unassinged trainer" string="unassinged trainer"
               domain="[('is_coach_included', '=', True), ('trainer_id', '=', False)]"/>
+          </group>
+          <separator/>
+          <group name="states">
+            <filter name="request state" string="requests"
+              domain="[('state', '=', 'request')]"/>          
+            <filter name="agree state" string="agree state"
+              domain="[('state', '=', 'agree')]"/>
+            <filter name="fine state" string="fine states"
+              domain="[('state', 'in', ('cancel_fine','no_show'))]"/>
+            <filter name="real state" string="real states"
+              domain="[('state', 'not in', ('request','cancel','cancel_fine','no_show'))]"/>
           </group>
         </search>
       </field>
