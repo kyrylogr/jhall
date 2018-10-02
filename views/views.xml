@@ -544,6 +544,17 @@
         </calendar>      
       </field>
     </record>
+<!--
+    <record model="ir.ui.view" id="jhall.v_g_schedule_booking">
+      <field name="name">Schedule booking</field>
+      <field name="model">jhall.h_schedule_booking</field>
+      <field name="arch" type="xml">
+        <gantt string="Bookings" date_start="date_time_book" 
+             color="equipment_id" date_delay="duration" default_group_by="equipment_id" >
+        </gantt>      
+      </field>
+    </record>
+-->
 
 
     <record model="ir.ui.view" id="jhall.v_s_schedule_booking">
