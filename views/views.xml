@@ -85,13 +85,13 @@
     <act_window id="jh_aview_schedule_booking"
         name="Schedule booking"
         res_model="jhall.h_schedule_booking"
-        view_mode="tree,form,calendar" 
+        view_mode="tree,form,calendar,timeline" 
     />
 
     <act_window id="jh_aview_schedule_booking_1"
         name="Berest Schedule"
         res_model="jhall.h_schedule_booking"
-        view_mode="tree,form,calendar" 
+        view_mode="tree,form,calendar,timeline" 
         context="{ 'default_hall_id': 1 }"
         domain="[('hall_id','=', 1)]"
     />
@@ -99,7 +99,7 @@
     <act_window id="jh_aview_schedule_booking_2"
         name="PDN Schedule"
         res_model="jhall.h_schedule_booking"
-        view_mode="tree,form,calendar" 
+        view_mode="tree,form,calendar,timeline" 
         context="{ 'default_hall_id': 2 }"
         domain="[('hall_id','=', 2)]"
     />    
@@ -107,7 +107,7 @@
     <act_window id="jh_aview_schedule_booking_3"
         name="HH Schedule"
         res_model="jhall.h_schedule_booking"
-        view_mode="tree,form,calendar" 
+        view_mode="tree,form,calendar,timeline" 
         context="{ 'default_hall_id': 3 }"
         domain="[('hall_id','=', 3)]"
     />    
@@ -544,18 +544,38 @@
         </calendar>      
       </field>
     </record>
-<!--
-    <record model="ir.ui.view" id="jhall.v_g_schedule_booking">
+
+
+    <record model="ir.ui.view" id="jhall.v_timeline_schedule_booking" >
       <field name="name">Schedule booking</field>
       <field name="model">jhall.h_schedule_booking</field>
+      <field name="type">timeline</field>
       <field name="arch" type="xml">
-        <gantt string="Bookings" date_start="date_time_book" 
-             color="equipment_id" date_delay="duration" default_group_by="equipment_id" >
-        </gantt>      
+          <timeline date_start="date_time_book"
+                    date_delay="duration"
+                    string="Bookings"
+                    default_group_by="equipment_id"
+                    event_open_popup="true" 
+                    mode="day"                                       
+                    >
+              <field name="customer_id"/>
+              <field name="trainer_id"/>          
+              <field name="service_type"/>
+              <field name="equipment_id"/>
+              <field name="state"/>
+              <templates>
+                  <div t-name="timeline-item">
+                      <div>  
+                      <span t-esc="record.customer_id[1]"/> : <span t-esc="record.state"/>                                                                                        
+                      </div>
+                      <div>
+                      <span t-esc="record.service_type[1]"/> : <span t-esc="record.trainer_id[1]"/> 
+                      </div>                      
+                  </div>
+              </templates>
+          </timeline>
       </field>
-    </record>
--->
-
+    </record>       
 
     <record model="ir.ui.view" id="jhall.v_s_schedule_booking">
       <field name="name">Schedule booking</field>
