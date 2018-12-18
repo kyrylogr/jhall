@@ -489,7 +489,7 @@
       <field name="name">Schedule booking</field>
       <field name="model">jhall.h_schedule_booking</field>
       <field name="arch" type="xml">
-        <tree>
+        <tree  default_order="date_book,time_begin,equipment_id">
           <field name="hall_id"/>
           <field name="date_book"/>
           <field name="time_begin"  widget="float_time"/>
