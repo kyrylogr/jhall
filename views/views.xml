@@ -537,10 +537,25 @@
         <calendar string="Bookings" date_start="date_time_book" 
              color="equipment_id" date_delay="duration" quick_add="0" >
           <field name="customer_id"/>
+          <field name="equipment_id"/>          
           <field name="trainer_id"/>          
-          <field name="service_type"/>
-          <field name="equipment_id"/>
+          <field name="service_type"/>          
           <field name="state"/>
+<!-- 
+              <templates>
+                  <div t-name="calendar-box">
+                      <t t-set="color" t-value="widget.getColor(event.color_index)"/>
+                      <div t-att-style="typeof color === 'string' ? ('background-color:'+color)+';' : ''" t-attf-class="#{record.is_highlighted &amp;&amp; record.is_highlighted.value ? 'o_event_hightlight' : ''} #{typeof color === 'number' ? 'o_calendar_color_'+color : ''}">
+                        <div>
+                          <span  class="fc-time"/> <span t-esc="record.customer_id[1]"/> : <span t-esc="record.equipment_id[1]"/>
+                        </div>                      
+                        <div>                        
+                          <span t-esc="record.service_type[1]"/> : <span t-esc="record.trainer_id[1]"/> 
+                        </div>                        
+                      </div>
+                  </div>
+              </templates>          
+-->              
         </calendar>      
       </field>
     </record>

@@ -42,15 +42,15 @@
         </record>
 
         <record id="jh_sc_1" model="jhall.d_service_category">
-            <field name="name">Аренда</field>
-            <field name="short_name">АР</field>
-            <field name="description">Аренда без тренера</field>
+            <field name="name">Оренда</field>
+            <field name="short_name">ОР</field>
+            <field name="description">Оренда без тренера</field>
         </record>
 
         <record id="jh_sc_2" model="jhall.d_service_category">
-            <field name="name">Аренда з тренером</field>
-            <field name="short_name">АРТ</field>
-            <field name="description">Аренда з тренером</field>
+            <field name="name">Оренда з тренером</field>
+            <field name="short_name">ОРТ</field>
+            <field name="description">Оренда з тренером</field>
         </record>
 
         <record id="jh_sc_3" model="jhall.d_service_category">
@@ -66,20 +66,20 @@
         </record>
 
         <record id="jh_sc_5" model="jhall.d_service_category">
-            <field name="name">Аренда залу</field>
-            <field name="short_name">АРЗ</field>
-            <field name="description">Аренда залу, включає одного тренера</field>
+            <field name="name">Оренда залу</field>
+            <field name="short_name">ОРЗ</field>
+            <field name="description">Оренда залу, включає одного тренера</field>
         </record>
 
         <record id="jh_st01" model="jhall.d_service_type">
-            <field name="name">Аренда</field>
-            <field name="short_name">АРНД</field>
+            <field name="name">Оренда</field>
+            <field name="short_name">ОРНД</field>
             <field name="equipment_type_id" ref="jh_et_1"/>
             <field name="category_id" ref="jh_sc_2"/>
         </record>
         <record id="jh_st02" model="jhall.d_service_type">
-            <field name="name">Аренда з тренером</field>
-            <field name="short_name">АРТР</field>
+            <field name="name">Оренда з тренером</field>
+            <field name="short_name">ОРТР</field>
             <field name="equipment_type_id" ref="jh_et_1"/>
             <field name="is_coach_included">True</field>
             <field name="category_id" ref="jh_sc_2"/>
@@ -145,14 +145,14 @@
         </record>
 
         <record id="jh_st10" model="jhall.d_service_type">
-            <field name="name">Аренда МТ</field>
-            <field name="short_name">АРНД МТ</field>
+            <field name="name">Оренда МТ</field>
+            <field name="short_name">ОРНД МТ</field>
             <field name="equipment_type_id" ref="jh_et_2"/>
             <field name="category_id" ref="jh_sc_2"/>
         </record>
         <record id="jh_st11" model="jhall.d_service_type">
-            <field name="name">Аренда МТ з тренером</field>
-            <field name="short_name">АРТР МТ</field>
+            <field name="name">Оренда МТ з тренером</field>
+            <field name="short_name">ОРТР МТ</field>
             <field name="equipment_type_id" ref="jh_et_2"/>
             <field name="is_coach_included">True</field>
             <field name="category_id" ref="jh_sc_2"/>
@@ -204,8 +204,8 @@
         </record>
 
         <record id="jh_st16" model="jhall.d_service_type">
-            <field name="name">Аренда малий зал</field>
-            <field name="short_name">Аренда малого залу</field>
+            <field name="name">Оренда малий зал</field>
+            <field name="short_name">Оренда малого залу</field>
             <field name="num_customers">1</field>
             <field name="default_unit_time">60</field>
             <field name="min_time">60</field>
