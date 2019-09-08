@@ -163,8 +163,8 @@ class o_customer(models.Model):
     partner_id = fields.Many2one('res.partner',ondelete='restrict',required=True, 
         auto_join=True)
     mobile = fields.Char('mobile phone', related = 'partner_id.mobile')
-    date_register = fields.Date('Date of birth', required = False)
-    date_birth = fields.Date('Date register', required = False)
+    date_birth= fields.Date('Date of birth', required = False)
+    date_register = fields.Date('Date register', required = False)
     prefered_communication = fields.Selection([
         ('phone', 'Phone'),
         ('sms', 'sms'),
@@ -191,11 +191,11 @@ class o_customer(models.Model):
     date_last_contact = fields.Date('Date last contact')
     date_next_contact = fields.Date('Date next scheduled contact')
     abonements = fields.One2many('jhall.o_abonement',
-        'customer_id', string="Abonements", limit =20)
+        'customer_id', string="Abonements", limit = 20)
     visits = fields.One2many('jhall.h_customer_visit',
-        'customer_id', string="Visits", limit =20)
+        'customer_id', string="Visits", limit = 20)
     contacts = fields.One2many('jhall.o_customer_interraction',
-        'customer_id', string="Interractions", limit =20)
+        'customer_id', string="Interractions", limit = 20)
 
 class h_abonement(models.Model):
     _name = 'jhall.o_abonement'
