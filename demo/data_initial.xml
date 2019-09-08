@@ -214,6 +214,42 @@
             <field name="category_id" ref="jh_sc_5"/>
         </record>
 
+        <record id="jh_st17" model="jhall.d_service_type">
+            <field name="name">Оренда 5хв</field>
+            <field name="short_name">5ХВБ</field>
+            <field name="default_unit_time">5</field>            
+            <field name="equipment_type_id" ref="jh_et_1"/>
+            <field name="category_id" ref="jh_sc_2"/>
+        </record>
+
+        <record id="jh_st18" model="jhall.d_service_type">
+            <field name="name">Оренда 15хв</field>
+            <field name="short_name">15ХВБ</field>
+            <field name="default_unit_time">15</field>                        
+            <field name="equipment_type_id" ref="jh_et_1"/>
+            <field name="category_id" ref="jh_sc_2"/>
+        </record>
+
+       <record id="jh_st19" model="jhall.d_service_type">
+            <field name="name">Дитяча зона 15хв</field>
+            <field name="short_name">ДЗ15</field>
+            <field name="default_unit_time">15</field>                                    
+            <field name="category_id" ref="jh_sc_2"/>
+        </record>
+
+       <record id="jh_st20" model="jhall.d_service_type">
+            <field name="name">Дитяча зона 30хв</field>
+            <field name="default_unit_time">30</field>                                    
+            <field name="short_name">ДЗ30</field>
+            <field name="category_id" ref="jh_sc_2"/>
+        </record>
+
+       <record id="jh_st21" model="jhall.d_service_type">
+            <field name="name">Дитяча зона безлім</field>
+            <field name="short_name">ДЗБЛ</field>
+            <field name="category_id" ref="jh_sc_2"/>
+        </record>
+
         <record id="jh_eq11" model="jhall.h_equipment">
             <field name="type_id" ref="jh_et_1"/>
             <field name="hall_id" ref="jh_hall_1"/>
